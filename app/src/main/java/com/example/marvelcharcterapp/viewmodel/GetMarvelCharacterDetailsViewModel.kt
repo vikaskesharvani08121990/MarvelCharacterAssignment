@@ -14,9 +14,9 @@ class GetMarvelCharacterDetailsViewModel  @Inject constructor(
     private val useCase: GetMarvelCharacterDetailsUseCase
 ): ViewModel() {
 
-    private val _marvelCharacterList =
+    private val _marvelCharacterDetails =
         MutableLiveData<NetworkStatus<DomainMatcherCharacterListResponse>>()
-    val marvelCharacterList  =_marvelCharacterList
+    val marvelCharacterDetails  =_marvelCharacterDetails
 
     fun  getMarvelCharacterDetails(
         publicKey: String,
@@ -27,7 +27,7 @@ class GetMarvelCharacterDetailsViewModel  @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO){
             var response= useCase.invoke(publicKey,privateKey,time,characterId)
-            _marvelCharacterList.postValue(response)
+            _marvelCharacterDetails.postValue(response)
         }
     }
 }

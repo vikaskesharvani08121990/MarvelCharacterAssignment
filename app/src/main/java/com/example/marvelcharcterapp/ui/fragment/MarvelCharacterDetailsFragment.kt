@@ -50,7 +50,7 @@ class MarvelCharacterDetailsFragment: BaseFragment() {
         if(characterId!=0)
         viewModel.getMarvelCharacterDetails(BuildConfig.PUBLIC_KEY, BuildConfig.PRIVATE_KEY,System.currentTimeMillis(),characterId)
 
-        viewModel.marvelCharacterList.observe(viewLifecycleOwner, Observer {networkState->
+        viewModel.marvelCharacterDetails.observe(viewLifecycleOwner, Observer {networkState->
             when(networkState){
                 is NetworkStatus.Loading->{
                     showLoading()
