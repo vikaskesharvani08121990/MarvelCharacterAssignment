@@ -11,7 +11,7 @@
 * ViewModel
 #### Libraries:
 * Glide
-* Retrofit
+* Retrofit 
 * Dagger
 #### Screenshots:
 ##### Character List Screen
