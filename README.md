@@ -6,9 +6,9 @@
 * Junit
 * Mokito
 #### Android framework
-*JetPack navigation
-*Live Data
-*ViewModel
+* JetPack navigation
+* Live Data
+* ViewModel
 #### Libraries:
 * Glide
 * Retrofit
