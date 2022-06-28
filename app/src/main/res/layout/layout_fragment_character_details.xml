@@ -23,7 +23,7 @@
             android:id="@+id/ivCharacter"
             android:layout_width="match_parent"
             android:layout_height="@dimen/image_view_height"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:visibility="@{!TextUtils.isEmpty(data.bigImage)?View.VISIBLE:View.GONE}"
             bind:imageSquireUrl="@{data.bigImage}"
             app:layout_constraintEnd_toEndOf="parent"

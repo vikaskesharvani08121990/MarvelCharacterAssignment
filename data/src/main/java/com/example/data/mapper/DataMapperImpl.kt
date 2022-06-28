@@ -24,7 +24,7 @@ class DataMapperImpl:DataMapper {
     }
 
     override fun mapMarvelCharacter(result:MarvelCharacterResult): MarvelCharacter {
-        return MarvelCharacter(result.id?:0,result.name?:"",description=result.description?:"", image = getSmallImage(result.thumbnail)?:"", bigImage = getMediumImage(result.thumbnail))
+        return MarvelCharacter(result.id?:0,result.name?:"",description=result.description?:"", image = getSmallImage(result.thumbnail)?:"", bigImage = getLargeImage(result.thumbnail))
 
     }
 
