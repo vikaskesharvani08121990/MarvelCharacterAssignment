@@ -63,8 +63,7 @@ class MarvelCharacterDetailsFragment: BaseFragment() {
                 is NetworkStatus.Success->{
                     hideLoading()
                     networkState.data?.let { data->
-                        if(data.charactersList.isNotEmpty())
-                            binding.data=data.charactersList[0]
+                            binding.data=data.characterDetails
                     }
 
 

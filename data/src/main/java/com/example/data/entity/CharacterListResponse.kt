@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 
-data class DataCharacterListDTO(
+data class CharacterListResponse(
     @SerializedName("attributionHTML")
     val attributionHTML: String?,
     @SerializedName("attributionText")
@@ -24,7 +24,7 @@ data class DataCharacterListDTO(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DataCharacterListDTO
+        other as CharacterListResponse
 
         if (etag != other.etag) return false
 

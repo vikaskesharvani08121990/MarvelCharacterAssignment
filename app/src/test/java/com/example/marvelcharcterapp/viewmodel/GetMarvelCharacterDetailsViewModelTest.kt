@@ -4,10 +4,10 @@ package com.example.marvelcharcterapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
+import com.example.domain.model.CharacterDetails
 import com.example.marvelcharcterapp.testUtils.GetViewModelFakeData
-import com.example.domain.model.DomainMatcherCharacterListResponse
 import com.example.domain.repository.GetMarvelCharactersRepository
-import com.example.domain.usecase.GetMarvelCharactersListUseCase
+import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.testUtils.getOrAwaitValue
 import com.google.common.truth.Truth
@@ -31,13 +31,13 @@ import org.mockito.kotlin.verify
 class GetMarvelCharacterDetailsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    var dataObject: DomainMatcherCharacterListResponse?=null
+    var dataObject: CharacterDetails?=null
 
     @Mock
     lateinit var  repository: GetMarvelCharactersRepository
 
     @InjectMocks
-    lateinit var useCase: GetMarvelCharactersListUseCase
+    lateinit var useCase: GetMarvelCharacterDetailsUseCaseImpl
 
     @Before
     fun setUp() {
@@ -55,19 +55,20 @@ class GetMarvelCharacterDetailsViewModelTest {
         CoroutineScope(Dispatchers.Default).launch {
             var publicKey= BuildConfig.PUBLIC_KEY
             var privateKey= BuildConfig.PRIVATE_KEY
+            var characterId=1017100
             var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<DomainMatcherCharacterListResponse>(data = dataObject)
-            Mockito.`when`(repository.getMarvelCharacters(publicKey,hash,System.currentTimeMillis())).
+            var response = NetworkStatus.Success<CharacterDetails>(data = dataObject)
+            Mockito.`when`(repository.getMarvelCharacterById(publicKey,hash,System.currentTimeMillis(),characterId)).
             thenReturn(response)
 
 
-            var viewModel=GetMarvelCharactersViewModel(useCase)
-            viewModel.getMarvelCharacters(publicKey,privateKey,System.currentTimeMillis())
-            var result=viewModel.marvelCharacterList.getOrAwaitValue()
+            var viewModel=GetMarvelCharacterDetailsViewModel(useCase)
+            viewModel.getMarvelCharacterDetails(publicKey,privateKey,System.currentTimeMillis(),characterId)
+            var result=viewModel.marvelCharacterDetails.getOrAwaitValue()
 
             Truth.assertThat(result?.data != null).isTrue()
-            verify(viewModel, times(1)).getMarvelCharacters(publicKey,hash,System.currentTimeMillis())
-            Truth.assertThat(result.data!!.charactersList.size == 1).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacterDetails(publicKey,hash,System.currentTimeMillis(),characterId)
+            Truth.assertThat(result.data!!.characterDetails!=null).isTrue()
         }
 
     }

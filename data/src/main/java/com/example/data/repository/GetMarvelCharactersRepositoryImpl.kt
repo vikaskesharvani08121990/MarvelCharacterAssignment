@@ -3,7 +3,8 @@ import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.data.mapper.DataMapper
 import com.example.data.remote.datasource.RemoteDataSource
-import com.example.domain.model.DomainMatcherCharacterListResponse
+import com.example.domain.model.CharacterDetails
+import com.example.domain.model.CharacterList
 import com.example.domain.repository.GetMarvelCharactersRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +18,7 @@ private val mD5HashKey: MD5HashKey):
         publicKey: String,
         privateKey: String,
         time: Long
-    ): NetworkStatus<DomainMatcherCharacterListResponse> {
+    ): NetworkStatus<CharacterList> {
         var hash= mD5HashKey.getHash(publicKey,privateKey,time)
        return withContext(Dispatchers.IO){
 
@@ -38,19 +39,20 @@ private val mD5HashKey: MD5HashKey):
        }
     }
 
-    override suspend fun getMarvelCharactersById(
+    override suspend fun getMarvelCharacterById(
         publicKey: String,
         privateKey: String,
         time: Long,
         characterId: Int
-    ): NetworkStatus<DomainMatcherCharacterListResponse> {
+    ): NetworkStatus<CharacterDetails> {
         var hash= mD5HashKey.getHash(publicKey,privateKey,time)
         return withContext(Dispatchers.IO){
 
             var response= remoteDataSource.getMarvelCharacterByCharacterId(publicKey,hash,time,characterId)
             when(response){
                 is  NetworkStatus.Success->{
-                    return@withContext NetworkStatus.Success(data=mapper.mapToRootObject(response.data!!))
+                    return@withContext NetworkStatus.Success(data=
+                    mapper.mapToRootDetails(response.data!!))
                 }
                 is NetworkStatus.Loading ->{
                     return@withContext NetworkStatus.Loading()

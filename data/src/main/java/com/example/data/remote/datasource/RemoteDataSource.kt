@@ -1,7 +1,7 @@
 package com.example.data.remote.datasource
 
 import com.example.common.utils.network.NetworkStatus
-import com.example.data.entity.DataCharacterListDTO
+import com.example.data.entity.CharacterListResponse
 
 
 interface RemoteDataSource {
@@ -10,7 +10,7 @@ interface RemoteDataSource {
         publicKey: String,
         hash: String,
         time: Long
-    ): NetworkStatus<DataCharacterListDTO>
+    ): NetworkStatus<CharacterListResponse>
 
 
     suspend  fun getMarvelCharacterByCharacterId(
@@ -18,7 +18,7 @@ interface RemoteDataSource {
         hash: String,
         time: Long,
         characterId:Int
-    ): NetworkStatus<DataCharacterListDTO>
+    ): NetworkStatus<CharacterListResponse>
 
 
 

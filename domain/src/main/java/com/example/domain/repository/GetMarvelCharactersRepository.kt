@@ -1,8 +1,8 @@
 package com.example.domain.repository
 
 import com.example.common.utils.network.NetworkStatus
-import com.example.domain.model.DomainMatcherCharacterListResponse
-
+import com.example.domain.model.CharacterDetails
+import com.example.domain.model.CharacterList
 
 
 interface GetMarvelCharactersRepository {
@@ -11,13 +11,13 @@ interface GetMarvelCharactersRepository {
         publicKey: String,
         privateKey: String,
         time: Long
-    ): NetworkStatus<DomainMatcherCharacterListResponse>
+    ): NetworkStatus<CharacterList>
 
 
-    suspend fun getMarvelCharactersById(
+    suspend fun getMarvelCharacterById(
         publicKey: String,
         privateKey: String,
         time: Long,
-        characterId:Int
-    ): NetworkStatus<DomainMatcherCharacterListResponse>
+        characterId: Int
+    ): NetworkStatus<CharacterDetails>
 }

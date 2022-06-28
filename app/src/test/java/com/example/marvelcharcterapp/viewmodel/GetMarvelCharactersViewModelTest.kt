@@ -5,9 +5,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.marvelcharcterapp.testUtils.GetViewModelFakeData
-import com.example.domain.model.DomainMatcherCharacterListResponse
+import com.example.domain.model.CharacterList
 import com.example.domain.repository.GetMarvelCharactersRepository
-import com.example.domain.usecase.GetMarvelCharactersListUseCase
+import com.example.domain.usecase.GetMarvelCharactersListUseCaseImpl
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.testUtils.getOrAwaitValue
 import com.google.common.truth.Truth.assertThat
@@ -30,13 +30,13 @@ import org.mockito.kotlin.verify
 class GetMarvelCharactersViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-      var dataObject: DomainMatcherCharacterListResponse?=null
+      var dataObject: CharacterList?=null
 
     @Mock
    lateinit var  repository: GetMarvelCharactersRepository
 
    @InjectMocks
-   lateinit var useCase: GetMarvelCharactersListUseCase
+   lateinit var useCase: GetMarvelCharactersListUseCaseImpl
 
     @Before
     fun setUp() {
@@ -55,7 +55,7 @@ class GetMarvelCharactersViewModelTest {
             var publicKey= BuildConfig.PUBLIC_KEY
             var privateKey=BuildConfig.PRIVATE_KEY
             var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<DomainMatcherCharacterListResponse>(data = dataObject)
+            var response = NetworkStatus.Success<CharacterList>(data = dataObject)
             Mockito.`when`(repository.getMarvelCharacters(publicKey,hash,System.currentTimeMillis())).
             thenReturn(response)
 
