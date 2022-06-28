@@ -66,8 +66,8 @@ class MarvelCharacterListFragment:BaseFragment() ,CharacterListAdapter.MarvelIte
                 }
                 is NetworkStatus.Success->{
                     hideLoading()
-                    if(networkState.data!=null&&networkState.data!!.charactersList.isNotEmpty())
-                    adapter.updateAdapter(networkState.data!!.charactersList)
+                    if(networkState.data!=null&&networkState.data!!.isNotEmpty())
+                    adapter.updateAdapter(networkState.data!!)
 
 
                 }

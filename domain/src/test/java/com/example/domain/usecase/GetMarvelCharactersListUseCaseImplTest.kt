@@ -4,7 +4,7 @@ package com.example.domain.usecase
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.domain.testUtils.GetDomainFakeData
-import com.example.domain.model.CharacterList
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.repository.GetMarvelCharactersRepository
 import com.google.common.truth.Truth
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +26,7 @@ class GetMarvelCharactersListUseCaseImplTest {
 
     @Mock
     lateinit var repository: GetMarvelCharactersRepository
-    var dataObject: CharacterList? = null
+    var dataObject: List<MarvelCharacter>? = null
 
     @InjectMocks
     lateinit var useCase: GetMarvelCharactersListUseCaseImpl
@@ -48,7 +48,7 @@ class GetMarvelCharactersListUseCaseImplTest {
             var publicKey = "dvksjncjknkjfn"
             var privateKey = "dfscndfvkvdfklvmd"
             var hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            var response = NetworkStatus.Success<CharacterList>(data = dataObject)
+            var response = NetworkStatus.Success<List<MarvelCharacter>>(data = dataObject)
             Mockito.`when`(
                 repository.getMarvelCharacters(
                     publicKey,
@@ -64,7 +64,7 @@ class GetMarvelCharactersListUseCaseImplTest {
                 System.currentTimeMillis()
             )
             Truth.assertThat(wantedResponse.data != null).isTrue()
-            Truth.assertThat(wantedResponse.data!!.charactersList.size == 2).isTrue()
+            Truth.assertThat(wantedResponse.data!!.size == 2).isTrue()
         }
 
     }

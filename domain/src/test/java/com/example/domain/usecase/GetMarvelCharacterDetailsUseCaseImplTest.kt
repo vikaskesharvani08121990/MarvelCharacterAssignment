@@ -2,7 +2,7 @@ package com.example.domain.usecase
 
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
-import com.example.domain.model.CharacterDetails
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.testUtils.GetDomainFakeData
 import com.example.domain.repository.GetMarvelCharactersRepository
 import com.google.common.truth.Truth
@@ -26,7 +26,7 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
 
     @Mock
     lateinit var repository: GetMarvelCharactersRepository
-    var dataObject: CharacterDetails? = null
+    var dataObject: MarvelCharacter? = null
 
     @InjectMocks
     lateinit var useCase: GetMarvelCharacterDetailsUseCaseImpl
@@ -49,7 +49,7 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
             var privateKey = "dfscndfvkvdfklvmd"
             var characterId = 1017100
             var hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            var response = NetworkStatus.Success<CharacterDetails>(data = dataObject)
+            var response = NetworkStatus.Success<MarvelCharacter>(data = dataObject)
             Mockito.`when`(
                 repository.getMarvelCharacterById(
                     publicKey,
@@ -68,7 +68,7 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
                 characterId
             )
             Truth.assertThat(wantedResponse.data != null).isTrue()
-            Truth.assertThat(wantedResponse.data!!.characterDetails != null).isTrue()
+            Truth.assertThat(wantedResponse.data!!.id == 1017100).isTrue()
         }
 
     }

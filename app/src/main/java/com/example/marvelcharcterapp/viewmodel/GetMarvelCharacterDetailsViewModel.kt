@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.utils.network.NetworkStatus
-import com.example.domain.model.CharacterDetails
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ class GetMarvelCharacterDetailsViewModel  @Inject constructor(
 ): ViewModel() {
 
     private val _marvelCharacterDetails =
-        MutableLiveData<NetworkStatus<CharacterDetails>>()
+        MutableLiveData<NetworkStatus<MarvelCharacter>>()
     val marvelCharacterDetails  =_marvelCharacterDetails
 
     fun  getMarvelCharacterDetails(

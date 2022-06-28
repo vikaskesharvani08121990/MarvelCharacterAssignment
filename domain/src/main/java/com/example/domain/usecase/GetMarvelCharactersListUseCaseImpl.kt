@@ -1,7 +1,7 @@
 package com.example.domain.usecase
 
 import com.example.common.utils.network.NetworkStatus
-import com.example.domain.model.CharacterList
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.repository.GetMarvelCharactersRepository
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ class GetMarvelCharactersListUseCaseImpl @Inject constructor(private val reposit
         publicKey: String,
         privateKey: String,
         time: Long
-    ): NetworkStatus<CharacterList> {
+    ): NetworkStatus<List<MarvelCharacter>> {
         return repository.getMarvelCharacters(publicKey, privateKey, time)
     }
 

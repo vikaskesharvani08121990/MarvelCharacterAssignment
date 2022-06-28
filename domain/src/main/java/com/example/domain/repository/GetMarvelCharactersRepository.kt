@@ -1,8 +1,7 @@
 package com.example.domain.repository
 
 import com.example.common.utils.network.NetworkStatus
-import com.example.domain.model.CharacterDetails
-import com.example.domain.model.CharacterList
+import com.example.domain.model.MarvelCharacter
 
 
 interface GetMarvelCharactersRepository {
@@ -11,7 +10,7 @@ interface GetMarvelCharactersRepository {
         publicKey: String,
         privateKey: String,
         time: Long
-    ): NetworkStatus<CharacterList>
+    ): NetworkStatus<List<MarvelCharacter>>
 
 
     suspend fun getMarvelCharacterById(
@@ -19,5 +18,5 @@ interface GetMarvelCharactersRepository {
         privateKey: String,
         time: Long,
         characterId: Int
-    ): NetworkStatus<CharacterDetails>
+    ): NetworkStatus<MarvelCharacter>
 }

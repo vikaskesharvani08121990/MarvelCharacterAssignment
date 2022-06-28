@@ -4,7 +4,7 @@ package com.example.marvelcharcterapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
-import com.example.domain.model.CharacterDetails
+import com.example.domain.model.MarvelCharacter
 import com.example.marvelcharcterapp.testUtils.GetViewModelFakeData
 import com.example.domain.repository.GetMarvelCharactersRepository
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
@@ -31,7 +31,7 @@ import org.mockito.kotlin.verify
 class GetMarvelCharacterDetailsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    var dataObject: CharacterDetails?=null
+    var dataObject: MarvelCharacter?=null
 
     @Mock
     lateinit var  repository: GetMarvelCharactersRepository
@@ -57,7 +57,7 @@ class GetMarvelCharacterDetailsViewModelTest {
             var privateKey= BuildConfig.PRIVATE_KEY
             var characterId=1017100
             var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<CharacterDetails>(data = dataObject)
+            var response = NetworkStatus.Success<MarvelCharacter>(data = dataObject)
             Mockito.`when`(repository.getMarvelCharacterById(publicKey,hash,System.currentTimeMillis(),characterId)).
             thenReturn(response)
 
@@ -68,7 +68,7 @@ class GetMarvelCharacterDetailsViewModelTest {
 
             Truth.assertThat(result?.data != null).isTrue()
             verify(viewModel, times(1)).getMarvelCharacterDetails(publicKey,hash,System.currentTimeMillis(),characterId)
-            Truth.assertThat(result.data!!.characterDetails!=null).isTrue()
+            Truth.assertThat(result.data!!.id==1017100).isTrue()
         }
 
     }

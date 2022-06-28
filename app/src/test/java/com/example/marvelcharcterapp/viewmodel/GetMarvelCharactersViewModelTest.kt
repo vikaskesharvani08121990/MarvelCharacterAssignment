@@ -5,7 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.marvelcharcterapp.testUtils.GetViewModelFakeData
-import com.example.domain.model.CharacterList
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.repository.GetMarvelCharactersRepository
 import com.example.domain.usecase.GetMarvelCharactersListUseCaseImpl
 import com.example.marvelcharcterapp.BuildConfig
@@ -30,7 +30,7 @@ import org.mockito.kotlin.verify
 class GetMarvelCharactersViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-      var dataObject: CharacterList?=null
+      var dataObject: List<MarvelCharacter>?=null
 
     @Mock
    lateinit var  repository: GetMarvelCharactersRepository
@@ -55,7 +55,7 @@ class GetMarvelCharactersViewModelTest {
             var publicKey= BuildConfig.PUBLIC_KEY
             var privateKey=BuildConfig.PRIVATE_KEY
             var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<CharacterList>(data = dataObject)
+            var response = NetworkStatus.Success<List<MarvelCharacter>>(data = dataObject)
             Mockito.`when`(repository.getMarvelCharacters(publicKey,hash,System.currentTimeMillis())).
             thenReturn(response)
 
@@ -66,7 +66,7 @@ class GetMarvelCharactersViewModelTest {
 
             assertThat(result?.data != null).isTrue()
             verify(viewModel, times(1)).getMarvelCharacters(publicKey,hash,System.currentTimeMillis())
-            assertThat(result.data!!.charactersList.size==2).isTrue()
+            assertThat(result.data!!.size==2).isTrue()
         }
 
     }
