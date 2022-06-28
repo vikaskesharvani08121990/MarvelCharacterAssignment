@@ -6,7 +6,7 @@ import com.example.data.remote.api.MarvelAPI
 import com.example.data.utils.safeApiCall
 
 
-class RemoteDataSourceImpl (private val apiService: MarvelAPI): RemoteDataSource {
+class RemoteDataSourceImpl(private val apiService: MarvelAPI) : RemoteDataSource {
 
 
     override suspend fun getMarvelCharacters(
@@ -14,7 +14,7 @@ class RemoteDataSourceImpl (private val apiService: MarvelAPI): RemoteDataSource
         hash: String,
         time: Long
     ): NetworkStatus<CharacterListResponse> {
-       return safeApiCall{apiService.getMarvelCharacters(publicKey,hash,time.toString())}
+        return safeApiCall { apiService.getMarvelCharacters(publicKey, hash, time.toString()) }
     }
 
     override suspend fun getMarvelCharacterByCharacterId(
@@ -23,6 +23,13 @@ class RemoteDataSourceImpl (private val apiService: MarvelAPI): RemoteDataSource
         time: Long,
         characterId: Int
     ): NetworkStatus<CharacterListResponse> {
-        return safeApiCall{apiService.getMarvelCharacterByCharacterId(characterId,publicKey,hash,time.toString())}
+        return safeApiCall {
+            apiService.getMarvelCharacterByCharacterId(
+                characterId,
+                publicKey,
+                hash,
+                time.toString()
+            )
+        }
     }
 }

@@ -40,7 +40,8 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showKeyboard() {
+        val view: View? = this.currentFocus
         val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        inputMethodManager.showSoftInput(view, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 }

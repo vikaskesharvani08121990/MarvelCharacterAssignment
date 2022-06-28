@@ -5,10 +5,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.domain.model.MarvelCharacter
-import com.example.marvelcharcterapp.testUtils.GetViewModelFakeData
 import com.example.domain.repository.GetMarvelCharactersRepository
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
 import com.example.marvelcharcterapp.BuildConfig
+import com.example.marvelcharcterapp.testUtils.GetViewModelFakeData
 import com.example.marvelcharcterapp.testUtils.getOrAwaitValue
 import com.google.common.truth.Truth
 import kotlinx.coroutines.CoroutineScope
@@ -31,44 +31,60 @@ import org.mockito.kotlin.verify
 class GetMarvelCharacterDetailsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    var dataObject: MarvelCharacter?=null
+    var dataObject: MarvelCharacter? = null
 
     @Mock
-    lateinit var  repository: GetMarvelCharactersRepository
+    lateinit var repository: GetMarvelCharactersRepository
 
     @InjectMocks
     lateinit var useCase: GetMarvelCharacterDetailsUseCaseImpl
 
     @Before
     fun setUp() {
-        dataObject= GetViewModelFakeData.getMarvelCharacterDetails()
+        dataObject = GetViewModelFakeData.getMarvelCharacterDetails()
 
     }
 
     @After
     fun tearDown() {
-        dataObject=null
+        dataObject = null
     }
 
     @Test
     fun testMarvelCharacterDetails() {
         CoroutineScope(Dispatchers.Default).launch {
-            var publicKey= BuildConfig.PUBLIC_KEY
-            var privateKey= BuildConfig.PRIVATE_KEY
-            var characterId=1017100
-            var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<MarvelCharacter>(data = dataObject)
-            Mockito.`when`(repository.getMarvelCharacterById(publicKey,hash,System.currentTimeMillis(),characterId)).
-            thenReturn(response)
+            val publicKey = BuildConfig.PUBLIC_KEY
+            val privateKey = BuildConfig.PRIVATE_KEY
+            val characterId = 1017100
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkStatus.Success<MarvelCharacter>(data = dataObject)
+            Mockito.`when`(
+                repository.getMarvelCharacterById(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
 
 
-            var viewModel=GetMarvelCharacterDetailsViewModel(useCase)
-            viewModel.getMarvelCharacterDetails(publicKey,privateKey,System.currentTimeMillis(),characterId)
-            var result=viewModel.marvelCharacterDetails.getOrAwaitValue()
+            val viewModel = GetMarvelCharacterDetailsViewModel(useCase)
+            viewModel.getMarvelCharacterDetails(
+                publicKey,
+                privateKey,
+                System.currentTimeMillis(),
+                characterId
+            )
+            val result = viewModel.marvelCharacterDetails.getOrAwaitValue()
 
             Truth.assertThat(result?.data != null).isTrue()
-            verify(viewModel, times(1)).getMarvelCharacterDetails(publicKey,hash,System.currentTimeMillis(),characterId)
-            Truth.assertThat(result.data!!.id==1017100).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacterDetails(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            Truth.assertThat(result.data!!.id == 1017100).isTrue()
         }
 
     }

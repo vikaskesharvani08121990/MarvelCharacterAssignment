@@ -8,7 +8,6 @@ import javax.inject.Inject
 class GetMarvelCharactersListUseCaseImpl @Inject constructor(private val repository: GetMarvelCharactersRepository) :
     GetMarvelCharactersListUseCase {
 
-
     override suspend operator fun invoke(
         publicKey: String,
         privateKey: String,

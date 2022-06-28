@@ -21,8 +21,6 @@
             android:name="characterId"
             app:argType="integer"
             android:defaultValue="0"/>
-        <action
-            android:id="@+id/action_marvelCharacterDetailsFragment_to_marvelCharacterListFragment"
-            app:popUpTo="@id/marvelCharacterListFragment" />
+
     </fragment>
 </navigation>

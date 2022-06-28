@@ -26,35 +26,45 @@ import org.mockito.kotlin.verify
 class GetMarvelCharactersRepositoryImplTest {
 
     @Mock
-    lateinit var  remoteDataSource: RemoteDataSource
+    lateinit var remoteDataSource: RemoteDataSource
 
     @InjectMocks
     lateinit var repository: GetMarvelCharactersRepository
 
-    var dataObject: CharacterListResponse?=null
+    var dataObject: CharacterListResponse? = null
 
     @Before
     fun setUp() {
-        dataObject= GetRepositoryFakeDataFromStringJsonFile.getOneMarvelCharacterList()
+        dataObject = GetRepositoryFakeDataFromStringJsonFile.getOneMarvelCharacterList()
 
     }
 
     @After
     fun tearDown() {
-        dataObject=null
+        dataObject = null
     }
 
     @Test
     fun getMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
-            var publicKey = "dvksjncjknkjfn"
-            var privateKey = "dfscndfvkvdfklvmd"
-            var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<CharacterListResponse>(data = dataObject)
-            Mockito.`when`(remoteDataSource.getMarvelCharacters(publicKey,hash,System.currentTimeMillis())).
-            thenReturn(response)
-            var wantedResponse= repository.getMarvelCharacters(publicKey,hash,System.currentTimeMillis())
-            verify(remoteDataSource, times(1)).getMarvelCharacters(publicKey,hash,System.currentTimeMillis())
+            val publicKey = "dvksjncjknkjfn"
+            val privateKey = "dfscndfvkvdfklvmd"
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkStatus.Success<CharacterListResponse>(data = dataObject)
+            Mockito.`when`(
+                remoteDataSource.getMarvelCharacters(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+            val wantedResponse =
+                repository.getMarvelCharacters(publicKey, hash, System.currentTimeMillis())
+            verify(remoteDataSource, times(1)).getMarvelCharacters(
+                publicKey,
+                hash,
+                System.currentTimeMillis()
+            )
             assertThat(response == wantedResponse).isTrue()
         }
 
@@ -64,15 +74,31 @@ class GetMarvelCharactersRepositoryImplTest {
     fun getMarvelCharactersById() {
 
         CoroutineScope(Dispatchers.Default).launch {
-            var publicKey = "dvksjncjknkjfn"
-            var privateKey = "dfscndfvkvdfklvmd"
-            var characterId = 1017100
-            var hash= MD5HashKey().getHash(publicKey,privateKey,System.currentTimeMillis())
-            var response = NetworkStatus.Success<CharacterListResponse>(data = dataObject)
-            Mockito.`when`(remoteDataSource.getMarvelCharacterByCharacterId(publicKey,hash,System.currentTimeMillis(),characterId)).
-            thenReturn(response)
-            var wantedResponse= repository.getMarvelCharacterById(publicKey,hash,System.currentTimeMillis(),characterId)
-            verify(remoteDataSource, times(1)).getMarvelCharacterByCharacterId(publicKey,hash,System.currentTimeMillis(),characterId)
+            val publicKey = "dvksjncjknkjfn"
+            val privateKey = "dfscndfvkvdfklvmd"
+            val characterId = 1017100
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkStatus.Success<CharacterListResponse>(data = dataObject)
+            Mockito.`when`(
+                remoteDataSource.getMarvelCharacterByCharacterId(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+            val wantedResponse = repository.getMarvelCharacterById(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            verify(remoteDataSource, times(1)).getMarvelCharacterByCharacterId(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
             assertThat(response == wantedResponse).isTrue()
         }
     }

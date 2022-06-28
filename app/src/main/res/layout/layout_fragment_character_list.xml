@@ -17,8 +17,8 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="5dp"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="@dimen/rv_vertical_margin"
+            android:layout_marginHorizontal="@dimen/rv_horizontal_margin"
 
             android:adapter="@{adapter}"
             android:orientation="vertical"
@@ -36,14 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_begin="@dimen/guild_line_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_begin="@dimen/guild_line_margin" />
 
         <ProgressBar
             android:id="@+id/progressBar"

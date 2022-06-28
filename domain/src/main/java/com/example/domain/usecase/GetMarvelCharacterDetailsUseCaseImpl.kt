@@ -5,7 +5,8 @@ import com.example.domain.model.MarvelCharacter
 import com.example.domain.repository.GetMarvelCharactersRepository
 import javax.inject.Inject
 
-class GetMarvelCharacterDetailsUseCaseImpl @Inject constructor(private val repository: GetMarvelCharactersRepository):GetMarvelCharacterDetailsUseCase {
+class GetMarvelCharacterDetailsUseCaseImpl @Inject constructor(private val repository: GetMarvelCharactersRepository) :
+    GetMarvelCharacterDetailsUseCase {
 
 
     override suspend operator fun invoke(

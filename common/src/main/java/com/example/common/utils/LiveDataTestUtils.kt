@@ -29,5 +29,5 @@ fun <T> LiveData<T>.getOrAwaitValue():T{
     }finally {
         this.removeObserver(observer)
     }
-    return data as T
+    return data!!
 }

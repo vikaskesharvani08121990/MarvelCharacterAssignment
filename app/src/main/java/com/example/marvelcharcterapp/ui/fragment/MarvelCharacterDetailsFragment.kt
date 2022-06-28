@@ -19,66 +19,78 @@ import com.example.marvelcharcterapp.di.DaggerCharacterAppComponent
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharacterDetailsViewModel
 import javax.inject.Inject
 
-class MarvelCharacterDetailsFragment: BaseFragment() {
-    private var characterId: Int=0
+class MarvelCharacterDetailsFragment : BaseFragment() {
+    private var characterId: Int = 0
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    lateinit var binding:LayoutFragmentCharacterDetailsBinding
-    lateinit var viewModel:GetMarvelCharacterDetailsViewModel
+    lateinit var binding: LayoutFragmentCharacterDetailsBinding
+    lateinit var viewModel: GetMarvelCharacterDetailsViewModel
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerCharacterAppComponent.factory().create(this@MarvelCharacterDetailsFragment.coreComponent()).inject(this)
+        DaggerCharacterAppComponent.factory()
+            .create(this@MarvelCharacterDetailsFragment.coreComponent()).inject(this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding= DataBindingUtil.inflate(inflater, R.layout.layout_fragment_character_details,container,false)
+    ): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.layout_fragment_character_details,
+            container,
+            false
+        )
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(requireArguments().containsKey("characterId")){
-             characterId=requireArguments().getInt("characterId")
+        if (requireArguments().containsKey("characterId")) {
+            characterId = requireArguments().getInt("characterId")
         }
-        viewModel= ViewModelProvider(this,factory)[GetMarvelCharacterDetailsViewModel::class.java]
-        if(characterId!=0)
-        viewModel.getMarvelCharacterDetails(BuildConfig.PUBLIC_KEY, BuildConfig.PRIVATE_KEY,System.currentTimeMillis(),characterId)
+        viewModel = ViewModelProvider(this, factory)[GetMarvelCharacterDetailsViewModel::class.java]
+        if (characterId != 0)
+            viewModel.getMarvelCharacterDetails(
+                BuildConfig.PUBLIC_KEY,
+                BuildConfig.PRIVATE_KEY,
+                System.currentTimeMillis(),
+                characterId
+            )
 
-        viewModel.marvelCharacterDetails.observe(viewLifecycleOwner, Observer {networkState->
-            when(networkState){
-                is NetworkStatus.Loading->{
+        viewModel.marvelCharacterDetails.observe(viewLifecycleOwner) { networkState ->
+            when (networkState) {
+                is NetworkStatus.Loading -> {
                     showLoading()
                 }
-                is NetworkStatus.Error->{
+                is NetworkStatus.Error -> {
                     hideLoading()
-                    ViewUtils.showToast(requireContext(),networkState.errorMessage?:"")
+                    ViewUtils.showToast(requireContext(), networkState.errorMessage ?: "")
 
                 }
-                is NetworkStatus.Success->{
+                is NetworkStatus.Success -> {
                     hideLoading()
-                    networkState.data?.let { data->
-                            binding.data=data
+                    networkState.data?.let { data ->
+                        binding.data = data
                     }
 
 
                 }
             }
 
-        })
+        }
     }
 
     override fun showLoading() {
-        binding.progressBar.visibility=View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        binding.progressBar.visibility=View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
 }

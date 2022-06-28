@@ -4,12 +4,12 @@ import com.example.data.entity.CharacterListResponse
 
 object GetRepositoryFakeDataFromStringJsonFile {
     fun getOneMarvelCharacterList(): CharacterListResponse {
-        var jsonConverter = JSONConverter<CharacterListResponse>()
+        val jsonConverter = JSONConverter<CharacterListResponse>()
         return jsonConverter.jsonToObject(res, CharacterListResponse::class.java)
     }
 }
 
-val res="{\n" +
+val res = "{\n" +
         "    \"code\": 200,\n" +
         "    \"status\": \"Ok\",\n" +
         "    \"copyright\": \"© 2022 MARVEL\",\n" +

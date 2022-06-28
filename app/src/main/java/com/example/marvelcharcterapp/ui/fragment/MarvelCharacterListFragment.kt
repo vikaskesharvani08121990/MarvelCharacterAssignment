@@ -22,75 +22,85 @@ import com.example.marvelcharcterapp.di.DaggerCharacterAppComponent
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharactersViewModel
 import javax.inject.Inject
 
-class MarvelCharacterListFragment:BaseFragment() ,CharacterListAdapter.MarvelItemClickListener{
+class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelItemClickListener {
 
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
 
-
-       lateinit var viewModel: GetMarvelCharactersViewModel
+    lateinit var viewModel: GetMarvelCharactersViewModel
     lateinit var binding: LayoutFragmentCharacterListBinding
     lateinit var adapter: CharacterListAdapter
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerCharacterAppComponent.factory().create(this@MarvelCharacterListFragment.coreComponent()).inject(this)
+        DaggerCharacterAppComponent.factory()
+            .create(this@MarvelCharacterListFragment.coreComponent()).inject(this)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding=DataBindingUtil.inflate(inflater, R.layout.layout_fragment_character_list,container,false)
+    ): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.layout_fragment_character_list,
+            container,
+            false
+        )
+
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel= ViewModelProvider(this,factory)[GetMarvelCharactersViewModel::class.java]
-        viewModel.getMarvelCharacters(BuildConfig.PUBLIC_KEY,BuildConfig.PRIVATE_KEY,System.currentTimeMillis())
-        adapter= CharacterListAdapter(ArrayList(),this)
-        binding.adapter=adapter
-        viewModel.marvelCharacterList.observe(viewLifecycleOwner, Observer {networkState->
-            when(networkState){
-                is NetworkStatus.Loading->{
+        viewModel = ViewModelProvider(this, factory)[GetMarvelCharactersViewModel::class.java]
+        viewModel.getMarvelCharacters(
+            BuildConfig.PUBLIC_KEY,
+            BuildConfig.PRIVATE_KEY,
+            System.currentTimeMillis()
+        )
+        adapter = CharacterListAdapter(ArrayList(), this)
+        binding.adapter = adapter
+        viewModel.marvelCharacterList.observe(viewLifecycleOwner) { networkState ->
+            when (networkState) {
+                is NetworkStatus.Loading -> {
                     showLoading()
                 }
-                is NetworkStatus.Error->{
+                is NetworkStatus.Error -> {
                     hideLoading()
-                    ViewUtils.showToast(requireContext(),networkState.errorMessage?:"")
+                    ViewUtils.showToast(requireContext(), networkState.errorMessage ?: "")
 
                 }
-                is NetworkStatus.Success->{
+                is NetworkStatus.Success -> {
                     hideLoading()
-                    if(networkState.data!=null&&networkState.data!!.isNotEmpty())
-                    adapter.updateAdapter(networkState.data!!)
+                    if (networkState.data != null && networkState.data!!.isNotEmpty())
+                        adapter.updateAdapter(networkState.data!!)
 
 
                 }
             }
 
-        })
+        }
     }
 
     override fun showLoading() {
-        binding.progressBar.visibility=View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        binding.progressBar.visibility=View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun onClick(data: MarvelCharacter) {
-        var action=MarvelCharacterListFragmentDirections.actionMarvelCharacterListFragmentToMarvelCharacterDetailsFragment(characterId = data.id)
+        val action =
+            MarvelCharacterListFragmentDirections.actionMarvelCharacterListFragmentToMarvelCharacterDetailsFragment(
+                characterId = data.id
+            )
         findNavController().navigate(action)
     }
-
-
-
 
 
 }
