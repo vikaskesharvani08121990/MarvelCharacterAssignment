@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
 import com.example.domain.usecase.GetMarvelCharactersListUseCase
+import com.example.marvelcharcterapp.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,6 +16,13 @@ class GetMarvelCharactersViewModel @Inject constructor(
 ) : ViewModel() {
 
     internal val marvelCharacterList = MutableLiveData<NetworkResponse<List<MarvelCharacter>>>()
+    init {
+        getMarvelCharacters(
+            BuildConfig.PUBLIC_KEY,
+            BuildConfig.PRIVATE_KEY,
+            System.currentTimeMillis()
+        )
+    }
     internal fun getMarvelCharacters(
         publicKey: String,
         privateKey: String,

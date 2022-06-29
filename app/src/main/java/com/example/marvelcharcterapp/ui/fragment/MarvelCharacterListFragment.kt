@@ -11,8 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.appcommon.base.BaseFragment
 import com.example.appcommon.utils.NetworkResponse
 import com.example.approot.rootComponent
-import com.example.domain.model.MarvelCharacter
-import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.R
 import com.example.marvelcharcterapp.adapter.CharacterListAdapter
 import com.example.marvelcharcterapp.databinding.LayoutFragmentCharacterListBinding
@@ -27,7 +25,7 @@ class MarvelCharacterListFragment : BaseFragment() {
 
     lateinit var viewModel: GetMarvelCharactersViewModel
 
-    lateinit var adapter: CharacterListAdapter
+    private lateinit var adapter: CharacterListAdapter
 
     private lateinit var binding: LayoutFragmentCharacterListBinding
 
@@ -56,11 +54,7 @@ class MarvelCharacterListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, factory)[GetMarvelCharactersViewModel::class.java]
-        viewModel.getMarvelCharacters(
-            BuildConfig.PUBLIC_KEY,
-            BuildConfig.PRIVATE_KEY,
-            System.currentTimeMillis()
-        )
+
         adapter = CharacterListAdapter(ArrayList()) { marvelCharacter ->
             val action =
                 MarvelCharacterListFragmentDirections.actionMarvelCharacterListFragmentToMarvelCharacterDetailsFragment(
