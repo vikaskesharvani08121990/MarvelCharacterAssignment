@@ -38,15 +38,16 @@ class AppDataModule {
 
     @Singleton
     @Provides
-    fun provideGetMarvelCharactersListUseCase(repository: MarvelCharactersRepository): GetMarvelCharactersListUseCase = GetMarvelCharactersListUseCaseImpl(repository)
+    fun provideGetMarvelCharactersListUseCase(repository: MarvelCharactersRepository): GetMarvelCharactersListUseCase =
+        GetMarvelCharactersListUseCaseImpl(repository)
 
     @Singleton
     @Provides
-    fun provideGetMarvelCharacterDetailsUseCase(repository: MarvelCharactersRepository): GetMarvelCharacterDetailsUseCase = GetMarvelCharacterDetailsUseCaseImpl(repository)
-
+    fun provideGetMarvelCharacterDetailsUseCase(repository: MarvelCharactersRepository): GetMarvelCharacterDetailsUseCase =
+        GetMarvelCharacterDetailsUseCaseImpl(repository)
 
     @Singleton
     @Provides
-    fun getMDG(): MD5HashKey = MD5HashKey()
+    fun getMDG() = MD5HashKey()
 
 }
