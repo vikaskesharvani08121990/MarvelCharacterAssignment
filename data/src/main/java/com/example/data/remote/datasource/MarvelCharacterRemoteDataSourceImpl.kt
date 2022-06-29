@@ -3,7 +3,7 @@ package com.example.data.remote.datasource
 import com.example.appcommon.utils.NetworkResponse
 import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.api.MarvelAPI
-import com.example.data.utils.safeApiCall
+import com.example.data.utils.apiCall
 
 class MarvelCharacterRemoteDataSourceImpl(private val apiService: MarvelAPI) :
     MarvelCharacterRemoteDataSource {
@@ -13,7 +13,7 @@ class MarvelCharacterRemoteDataSourceImpl(private val apiService: MarvelAPI) :
         hash: String,
         time: Long
     ): NetworkResponse<CharacterListResponse> {
-        return safeApiCall { apiService.getMarvelCharacters(publicKey, hash, time.toString()) }
+        return apiCall { apiService.getMarvelCharacters(publicKey, hash, time.toString()) }
     }
 
     override suspend fun getMarvelCharacterByCharacterId(
@@ -22,7 +22,7 @@ class MarvelCharacterRemoteDataSourceImpl(private val apiService: MarvelAPI) :
         time: Long,
         characterId: Int
     ): NetworkResponse<CharacterListResponse> {
-        return safeApiCall {
+        return apiCall {
             apiService.getMarvelCharacterByCharacterId(
                 characterId,
                 publicKey,
