@@ -5,9 +5,8 @@ import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.api.MarvelAPI
 import com.example.data.utils.safeApiCall
 
-
-class RemoteDataSourceImpl(private val apiService: MarvelAPI) : RemoteDataSource {
-
+class MarvelCharacterRemoteDataSourceImpl(private val apiService: MarvelAPI) :
+    MarvelCharacterRemoteDataSource {
 
     override suspend fun getMarvelCharacters(
         publicKey: String,

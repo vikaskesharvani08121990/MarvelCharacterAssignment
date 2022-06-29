@@ -14,7 +14,6 @@ interface MarvelAPI {
         @Query("ts") ts: String
     ): Response<CharacterListResponse>
 
-
     @GET("/v1/public/characters/{characterId}")
     suspend fun getMarvelCharacterByCharacterId(
         @Path("characterId") characterId: Int, @Query("apikey") apikey: String,

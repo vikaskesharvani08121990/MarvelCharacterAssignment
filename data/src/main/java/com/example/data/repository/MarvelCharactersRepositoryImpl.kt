@@ -3,18 +3,17 @@ package com.example.data.repository
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.data.mapper.DataMapper
-import com.example.data.remote.datasource.RemoteDataSource
+import com.example.data.remote.datasource.MarvelCharacterRemoteDataSource
 import com.example.domain.model.MarvelCharacter
-import com.example.domain.repository.GetMarvelCharactersRepository
+import com.example.domain.repository.MarvelCharactersRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GetMarvelCharactersRepositoryImpl(
-    private val remoteDataSource: RemoteDataSource,
+class MarvelCharactersRepositoryImpl(
+    private val marvelCharacterRemoteDataSource: MarvelCharacterRemoteDataSource,
     private val mapper: DataMapper,
     private val mD5HashKey: MD5HashKey
-) :
-    GetMarvelCharactersRepository {
+) : MarvelCharactersRepository {
     override suspend fun getMarvelCharacters(
         publicKey: String,
         privateKey: String,
@@ -23,7 +22,8 @@ class GetMarvelCharactersRepositoryImpl(
         val hash = mD5HashKey.getHash(publicKey, privateKey, time)
         return withContext(Dispatchers.IO) {
 
-            when (val response = remoteDataSource.getMarvelCharacters(publicKey, hash, time)) {
+            when (val response =
+                marvelCharacterRemoteDataSource.getMarvelCharacters(publicKey, hash, time)) {
                 is NetworkStatus.Success -> {
                     return@withContext NetworkStatus.Success(
                         data = mapper.mapToListOfMarvelCharacter(
@@ -53,7 +53,12 @@ class GetMarvelCharactersRepositoryImpl(
         return withContext(Dispatchers.IO) {
 
             val response =
-                remoteDataSource.getMarvelCharacterByCharacterId(publicKey, hash, time, characterId)
+                marvelCharacterRemoteDataSource.getMarvelCharacterByCharacterId(
+                    publicKey,
+                    hash,
+                    time,
+                    characterId
+                )
             when (response) {
                 is NetworkStatus.Success -> {
                     return@withContext NetworkStatus.Success(

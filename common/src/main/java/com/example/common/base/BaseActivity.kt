@@ -1,9 +1,6 @@
 package com.example.common.base
 
-import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -17,31 +14,21 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    private fun showMessage(message: String) {
+    private fun showToastMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showSnackBar(message: String) {
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
-        val sbView = snackbar.view
+        val snackBar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+        val sbView = snackBar.view
 
         val textView = sbView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
         textView.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-        snackbar.show()
+        snackBar.show()
     }
 
-    fun show(message: String, useToast: Boolean) =
-        if (useToast) showMessage(message) else showSnackBar(message)
+    fun showMessage(message: String, useToast: Boolean) =
+        if (useToast) showToastMessage(message) else showSnackBar(message)
 
-    fun hideKeyboard() {
-        val view: View? = this.currentFocus
-        val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
-    }
 
-    fun showKeyboard() {
-        val view: View? = this.currentFocus
-        val inputMethodManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.showSoftInput(view, InputMethodManager.HIDE_IMPLICIT_ONLY)
-    }
 }

@@ -1,15 +1,15 @@
-package com.example.data.testUtils
+package com.example.data
 
 import com.example.data.entity.CharacterListResponse
 
-object GetRepositoryFakeDataFromStringJsonFile {
+object GetRepositoryMockDataFromStringJson {
     fun getOneMarvelCharacterList(): CharacterListResponse {
         val jsonConverter = JSONConverter<CharacterListResponse>()
-        return jsonConverter.jsonToObject(res, CharacterListResponse::class.java)
+        return jsonConverter.jsonToObject(responseJson, CharacterListResponse::class.java)
     }
 }
 
-val res = "{\n" +
+const val responseJson = "{\n" +
         "    \"code\": 200,\n" +
         "    \"status\": \"Ok\",\n" +
         "    \"copyright\": \"© 2022 MARVEL\",\n" +

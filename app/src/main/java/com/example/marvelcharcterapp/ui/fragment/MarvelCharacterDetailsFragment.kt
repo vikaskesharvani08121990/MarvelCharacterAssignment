@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.common.base.BaseFragment
-import com.example.common.utils.ViewUtils
 import com.example.common.utils.network.NetworkStatus
 import com.example.core.coreComponent
 import com.example.marvelcharcterapp.BuildConfig
@@ -19,14 +17,17 @@ import com.example.marvelcharcterapp.di.DaggerCharacterAppComponent
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharacterDetailsViewModel
 import javax.inject.Inject
 
+private const val CHARACTER_ID="characterId"
+
 class MarvelCharacterDetailsFragment : BaseFragment() {
     private var characterId: Int = 0
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    lateinit var binding: LayoutFragmentCharacterDetailsBinding
+
     lateinit var viewModel: GetMarvelCharacterDetailsViewModel
 
+    private lateinit var binding: LayoutFragmentCharacterDetailsBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,8 +51,8 @@ class MarvelCharacterDetailsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (requireArguments().containsKey("characterId")) {
-            characterId = requireArguments().getInt("characterId")
+        if (requireArguments().containsKey(CHARACTER_ID)) {
+            characterId = requireArguments().getInt(CHARACTER_ID)
         }
         viewModel = ViewModelProvider(this, factory)[GetMarvelCharacterDetailsViewModel::class.java]
         if (characterId != 0)
@@ -69,15 +70,13 @@ class MarvelCharacterDetailsFragment : BaseFragment() {
                 }
                 is NetworkStatus.Error -> {
                     hideLoading()
-                    ViewUtils.showToast(requireContext(), networkState.errorMessage ?: "")
-
+                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode),true)
                 }
                 is NetworkStatus.Success -> {
                     hideLoading()
                     networkState.data?.let { data ->
                         binding.data = data
                     }
-
 
                 }
             }

@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-      <variable
-          name="adapter"
-          type="com.example.marvelcharcterapp.adapter.CharacterListAdapter" />
+
+        <variable
+            name="adapter"
+            type="com.example.marvelcharcterapp.adapter.CharacterListAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,9 +18,8 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="@dimen/rv_vertical_margin"
             android:layout_marginHorizontal="@dimen/rv_horizontal_margin"
-
+            android:layout_marginVertical="@dimen/rv_vertical_margin"
             android:adapter="@{adapter}"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -48,9 +48,9 @@
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="@+id/recyclerView"
             app:layout_constraintStart_toStartOf="@+id/recyclerView"

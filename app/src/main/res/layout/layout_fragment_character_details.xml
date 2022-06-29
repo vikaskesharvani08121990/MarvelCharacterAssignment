@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <import type="android.text.TextUtils"/>
-       <variable
-           name="data"
-           type="com.example.domain.model.MarvelCharacter" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="data"
+            type="com.example.domain.model.MarvelCharacter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:paddingTop="@dimen/detail_ui_root_layout_padding"
+        android:layout_height="match_parent"
         android:paddingHorizontal="@dimen/detail_ui_root_layout_padding"
-        android:layout_height="match_parent">
-
+        android:paddingTop="@dimen/detail_ui_root_layout_padding">
 
         <ImageView
             android:id="@+id/ivCharacter"
@@ -34,59 +36,59 @@
             android:id="@+id/tvCharacterName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/tv_title_margin_top"
             android:fontFamily="sans-serif-black"
             android:text="@{data.name}"
-            android:visibility="@{!TextUtils.isEmpty(data.name)?View.VISIBLE:View.GONE}"
-            tools:text="@string/app_name"
             android:textSize="@dimen/title_text_size"
+            android:visibility="@{!TextUtils.isEmpty(data.name)?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivCharacter" />
+            app:layout_constraintTop_toBottomOf="@+id/ivCharacter"
+            tools:text="@string/app_name" />
 
         <TextView
             android:id="@+id/tvCharacterId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/tv_id_margin_top"
             android:fontFamily="sans-serif-light"
-            android:visibility="@{data.id!=0?View.VISIBLE:View.GONE}"
             android:text="@{@string/id_text(data.id)}"
+            android:visibility="@{data.id!=0?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="@string/dummy_id"
-            app:layout_constraintTop_toBottomOf="@+id/tvCharacterName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCharacterName"
+            tools:text="@string/dummy_id" />
 
         <TextView
-            android:visibility="@{!TextUtils.isEmpty(data.description)?View.VISIBLE:View.GONE}"
             android:id="@+id/tvLabelDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/tv_id_margin_top"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/description"
             android:textColor="#04DA5A"
             android:textStyle="italic"
+            android:visibility="@{!TextUtils.isEmpty(data.description)?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCharacterId" />
 
         <TextView
-            android:visibility="@{!TextUtils.isEmpty(data.description)?View.VISIBLE:View.GONE}"
             android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/tv_id_margin_top"
             android:gravity="center_vertical"
             android:text="@{data.description}"
             android:textStyle="italic"
-            tools:text="@string/dummy_text"
+            android:visibility="@{!TextUtils.isEmpty(data.description)?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLabelDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/tvLabelDescription"
+            tools:text="@string/dummy_text" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -97,7 +99,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

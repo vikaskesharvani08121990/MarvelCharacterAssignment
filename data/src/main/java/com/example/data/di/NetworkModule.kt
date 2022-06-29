@@ -13,39 +13,24 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    private var okHttpClient: OkHttpClient? = null
-
-
-    /*
-    * The method returns the Okhttp object
-    * */
-    @Provides
-    @Singleton
-    internal fun provideOkhttpClient(): OkHttpClient {
-        okHttpClient = OkHttpClient.Builder()
-            .build()
-
-        return (okHttpClient)!!
-    }
-
-    /*
-    * The method returns the Retrofit object
-    * */
-    @Provides
-    @Singleton
-    internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-    }
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): MarvelAPI {
-        return retrofit.create(MarvelAPI::class.java)
-    }
+    internal fun provideOkhttpClient(): OkHttpClient = OkHttpClient.Builder()
+        .build()
+
+
+    @Provides
+    @Singleton
+    internal fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): MarvelAPI = retrofit.create(MarvelAPI::class.java)
 
 
 }

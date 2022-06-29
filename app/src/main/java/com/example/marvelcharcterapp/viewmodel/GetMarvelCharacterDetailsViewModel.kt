@@ -10,24 +10,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class GetMarvelCharacterDetailsViewModel  @Inject constructor(
+class GetMarvelCharacterDetailsViewModel @Inject constructor(
     private val useCase: GetMarvelCharacterDetailsUseCaseImpl
-): ViewModel() {
+) : ViewModel() {
 
-    private val _marvelCharacterDetails =
+    internal val marvelCharacterDetails =
         MutableLiveData<NetworkStatus<MarvelCharacter>>()
-    val marvelCharacterDetails  =_marvelCharacterDetails
 
-    fun  getMarvelCharacterDetails(
+    internal fun getMarvelCharacterDetails(
         publicKey: String,
         privateKey: String,
         time: Long,
-        characterId:Int
-    ){
+        characterId: Int
+    ) {
 
-        viewModelScope.launch(Dispatchers.IO){
-            var response= useCase.invoke(publicKey,privateKey,time,characterId)
-            _marvelCharacterDetails.postValue(response)
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = useCase.invoke(publicKey, privateKey, time, characterId)
+            marvelCharacterDetails.postValue(response)
         }
     }
 }

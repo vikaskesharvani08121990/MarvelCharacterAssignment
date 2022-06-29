@@ -5,14 +5,10 @@ import android.os.Bundle
 import com.example.common.base.BaseActivity
 import com.example.marvelcharcterapp.R
 
-
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
 
-    companion object {
-        private const val TAG = "MainActivity"
-    }
 }

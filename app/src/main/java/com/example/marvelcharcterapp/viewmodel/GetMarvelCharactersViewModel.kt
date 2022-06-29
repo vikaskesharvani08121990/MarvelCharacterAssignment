@@ -12,19 +12,18 @@ import javax.inject.Inject
 
 class GetMarvelCharactersViewModel @Inject constructor(
     private val useCase: GetMarvelCharactersListUseCaseImpl
-):ViewModel() {
+) : ViewModel() {
 
-    private val _marvelCharacterList =MutableLiveData<NetworkStatus<List<MarvelCharacter>>>()
-    val marvelCharacterList  =_marvelCharacterList
-    fun  getMarvelCharacters(
+    internal val marvelCharacterList = MutableLiveData<NetworkStatus<List<MarvelCharacter>>>()
+    internal fun getMarvelCharacters(
         publicKey: String,
         privateKey: String,
         time: Long
-    ){
+    ) {
 
-        viewModelScope.launch(Dispatchers.IO){
-           var response= useCase.invoke(publicKey,privateKey,time)
-            _marvelCharacterList.postValue(response)
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = useCase.invoke(publicKey, privateKey, time)
+            marvelCharacterList.postValue(response)
         }
     }
 

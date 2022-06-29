@@ -10,26 +10,20 @@ import com.example.domain.model.MarvelCharacter
 import com.example.marvelcharcterapp.R
 import com.example.marvelcharcterapp.databinding.RowCharacterBinding
 
-class CharacterListAdapter(private var characterList:List<MarvelCharacter>,private val listener:MarvelItemClickListener): RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
-    inner class ViewHolder(view:View):RecyclerView.ViewHolder(view){
-        val binding:RowCharacterBinding?=DataBindingUtil.bind(view)
-        init {
-            view.tag=binding
-        }
-    }
-
-    interface MarvelItemClickListener{
-        fun onClick(data:MarvelCharacter)
-    }
+class CharacterListAdapter(
+    private var characterList: List<MarvelCharacter>,
+    private val listener: MarvelItemClickListener
+) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       val view=LayoutInflater.from(parent.context).inflate(R.layout.row_character,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.row_character, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-       holder.binding?.click=listener
-        holder.binding?.data=characterList[position]
+        holder.binding?.click = listener
+        holder.binding?.data = characterList[position]
 
     }
 
@@ -38,12 +32,21 @@ class CharacterListAdapter(private var characterList:List<MarvelCharacter>,priva
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateAdapter(value: List<MarvelCharacter>){
-        characterList=value
-         notifyDataSetChanged()
+    fun updateAdapter(value: List<MarvelCharacter>) {
+        characterList = value
+        notifyDataSetChanged()
     }
 
-    companion object {
-        private const val TAG = "CharacterListAdapter"
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding: RowCharacterBinding? = DataBindingUtil.bind(view)
+
+        init {
+            view.tag = binding
+        }
     }
+
+    interface MarvelItemClickListener {
+        fun onClick(data: MarvelCharacter)
+    }
+
 }

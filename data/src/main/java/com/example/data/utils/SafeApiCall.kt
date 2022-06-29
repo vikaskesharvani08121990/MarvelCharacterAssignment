@@ -1,10 +1,10 @@
 package com.example.data.utils
 
 
-import com.example.common.utils.CONNECT_EXCEPTION
-import com.example.common.utils.SOCKET_TIME_OUT_EXCEPTION
-import com.example.common.utils.UNKNOWN_HOST_EXCEPTION
-import com.example.common.utils.UNKNOWN_NETWORK_EXCEPTION
+import com.example.common.utils.CONNECT_EXCEPTION_CODE
+import com.example.common.utils.SOCKET_TIME_OUT_EXCEPTION_CODE
+import com.example.common.utils.UNKNOWN_HOST_EXCEPTION_CODE
+import com.example.common.utils.UNKNOWN_NETWORK_EXCEPTION_CODE
 import com.example.common.utils.network.NetworkStatus
 import retrofit2.HttpException
 import retrofit2.Response
@@ -24,19 +24,19 @@ suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): NetworkStatu
     } catch (e: Exception) {
         return when (e) {
             is ConnectException -> {
-                NetworkStatus.Error(CONNECT_EXCEPTION)
+                NetworkStatus.Error(errorCode = CONNECT_EXCEPTION_CODE)
             }
             is UnknownHostException -> {
-                NetworkStatus.Error(UNKNOWN_HOST_EXCEPTION)
+                NetworkStatus.Error(errorCode = UNKNOWN_HOST_EXCEPTION_CODE)
             }
             is SocketTimeoutException -> {
-                NetworkStatus.Error(SOCKET_TIME_OUT_EXCEPTION)
+                NetworkStatus.Error(errorCode = SOCKET_TIME_OUT_EXCEPTION_CODE)
             }
             is HttpException -> {
-                NetworkStatus.Error(UNKNOWN_NETWORK_EXCEPTION)
+                NetworkStatus.Error(errorCode = UNKNOWN_NETWORK_EXCEPTION_CODE)
             }
             else -> {
-                NetworkStatus.Error(UNKNOWN_NETWORK_EXCEPTION)
+                NetworkStatus.Error(errorCode = UNKNOWN_NETWORK_EXCEPTION_CODE)
             }
         }
     }

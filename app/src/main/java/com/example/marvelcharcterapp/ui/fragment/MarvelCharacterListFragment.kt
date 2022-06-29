@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.common.base.BaseFragment
-import com.example.common.utils.ViewUtils
 import com.example.common.utils.network.NetworkStatus
 import com.example.core.coreComponent
 import com.example.domain.model.MarvelCharacter
@@ -24,14 +22,15 @@ import javax.inject.Inject
 
 class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelItemClickListener {
 
-
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-
     lateinit var viewModel: GetMarvelCharactersViewModel
-    lateinit var binding: LayoutFragmentCharacterListBinding
+
     lateinit var adapter: CharacterListAdapter
+
+    private lateinit var binding: LayoutFragmentCharacterListBinding
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DaggerCharacterAppComponent.factory()
@@ -71,20 +70,19 @@ class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelI
                 }
                 is NetworkStatus.Error -> {
                     hideLoading()
-                    ViewUtils.showToast(requireContext(), networkState.errorMessage ?: "")
-
+                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode),true)
                 }
                 is NetworkStatus.Success -> {
                     hideLoading()
                     if (networkState.data != null && networkState.data!!.isNotEmpty())
                         adapter.updateAdapter(networkState.data!!)
-
-
                 }
             }
 
         }
     }
+
+
 
     override fun showLoading() {
         binding.progressBar.visibility = View.VISIBLE

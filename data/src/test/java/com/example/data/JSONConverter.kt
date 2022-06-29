@@ -1,4 +1,4 @@
-package com.example.data.testUtils
+package com.example.data
 
 import com.google.gson.Gson
 

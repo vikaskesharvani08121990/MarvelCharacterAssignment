@@ -4,9 +4,9 @@ package com.example.data.repository
 import com.example.common.utils.MD5HashKey
 import com.example.common.utils.network.NetworkStatus
 import com.example.data.entity.CharacterListResponse
-import com.example.data.remote.datasource.RemoteDataSource
-import com.example.data.testUtils.GetRepositoryFakeDataFromStringJsonFile
-import com.example.domain.repository.GetMarvelCharactersRepository
+import com.example.data.remote.datasource.MarvelCharacterRemoteDataSource
+import com.example.data.GetRepositoryMockDataFromStringJson
+import com.example.domain.repository.MarvelCharactersRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,19 +23,22 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(JUnit4::class)
-class GetMarvelCharactersRepositoryImplTest {
+class MarvelCharactersRepositoryImplTest {
 
     @Mock
-    lateinit var remoteDataSource: RemoteDataSource
+    lateinit var marvelCharacterRemoteDataSource: MarvelCharacterRemoteDataSource
 
     @InjectMocks
-    lateinit var repository: GetMarvelCharactersRepository
+    lateinit var repository: MarvelCharactersRepository
 
-    var dataObject: CharacterListResponse? = null
+    private var dataObject: CharacterListResponse? = null
+
+    private val publicKey = "dvksjncjknkjfn"
+    private val privateKey = "dfscndfvkvdfklvmd"
 
     @Before
     fun setUp() {
-        dataObject = GetRepositoryFakeDataFromStringJsonFile.getOneMarvelCharacterList()
+        dataObject = GetRepositoryMockDataFromStringJson.getOneMarvelCharacterList()
 
     }
 
@@ -47,12 +50,11 @@ class GetMarvelCharactersRepositoryImplTest {
     @Test
     fun getMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
-            val publicKey = "dvksjncjknkjfn"
-            val privateKey = "dfscndfvkvdfklvmd"
+
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            val response = NetworkStatus.Success<CharacterListResponse>(data = dataObject)
+            val response = NetworkStatus.Success(data = dataObject)
             Mockito.`when`(
-                remoteDataSource.getMarvelCharacters(
+                marvelCharacterRemoteDataSource.getMarvelCharacters(
                     publicKey,
                     hash,
                     System.currentTimeMillis()
@@ -60,7 +62,7 @@ class GetMarvelCharactersRepositoryImplTest {
             ).thenReturn(response)
             val wantedResponse =
                 repository.getMarvelCharacters(publicKey, hash, System.currentTimeMillis())
-            verify(remoteDataSource, times(1)).getMarvelCharacters(
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacters(
                 publicKey,
                 hash,
                 System.currentTimeMillis()
@@ -74,13 +76,11 @@ class GetMarvelCharactersRepositoryImplTest {
     fun getMarvelCharactersById() {
 
         CoroutineScope(Dispatchers.Default).launch {
-            val publicKey = "dvksjncjknkjfn"
-            val privateKey = "dfscndfvkvdfklvmd"
             val characterId = 1017100
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            val response = NetworkStatus.Success<CharacterListResponse>(data = dataObject)
+            val response = NetworkStatus.Success(data = dataObject)
             Mockito.`when`(
-                remoteDataSource.getMarvelCharacterByCharacterId(
+                marvelCharacterRemoteDataSource.getMarvelCharacterByCharacterId(
                     publicKey,
                     hash,
                     System.currentTimeMillis(),
@@ -93,7 +93,7 @@ class GetMarvelCharactersRepositoryImplTest {
                 System.currentTimeMillis(),
                 characterId
             )
-            verify(remoteDataSource, times(1)).getMarvelCharacterByCharacterId(
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacterByCharacterId(
                 publicKey,
                 hash,
                 System.currentTimeMillis(),

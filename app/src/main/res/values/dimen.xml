@@ -13,4 +13,6 @@
     <dimen name="tv_margin_start">16dp</dimen>
     <dimen name="tv_margin_top">3dp</dimen>
     <dimen name="tv_name_margin">8dp</dimen>
+    <dimen name="tv_title_margin_top">24dp</dimen>
+    <dimen name="tv_id_margin_top">12dp</dimen>
 </resources>

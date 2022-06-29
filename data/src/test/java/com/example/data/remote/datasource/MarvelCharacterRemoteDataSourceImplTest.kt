@@ -3,7 +3,7 @@ package com.example.data.remote.datasource
 import com.example.common.utils.MD5HashKey
 import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.api.MarvelAPI
-import com.example.data.testUtils.GetRepositoryFakeDataFromStringJsonFile
+import com.example.data.GetRepositoryMockDataFromStringJson
 import com.google.common.truth.Truth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,18 +21,21 @@ import org.mockito.kotlin.verify
 import retrofit2.Response
 
 @RunWith(JUnit4::class)
-class RemoteDataSourceImplTest {
+class MarvelCharacterRemoteDataSourceImplTest {
     var dataObject: CharacterListResponse? = null
+
+    private val publicKey = "dvksjncjknkjfn"
+    private val privateKey = "dfscndfvkvdfklvmd"
 
     @Mock
     lateinit var marvelAPI: MarvelAPI
 
     @InjectMocks
-    lateinit var remoteDataSourceImpl: RemoteDataSourceImpl
+    lateinit var remoteDataSourceImpl: MarvelCharacterRemoteDataSource
 
     @Before
     fun setUp() {
-        dataObject = GetRepositoryFakeDataFromStringJsonFile.getOneMarvelCharacterList()
+        dataObject = GetRepositoryMockDataFromStringJson.getOneMarvelCharacterList()
 
     }
 
@@ -44,8 +47,7 @@ class RemoteDataSourceImplTest {
     @Test
     fun testMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
-            val publicKey = "dvksjncjknkjfn"
-            val privateKey = "dfscndfvkvdfklvmd"
+
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
             val response = Response.success(dataObject)
             Mockito.`when`(
@@ -74,8 +76,7 @@ class RemoteDataSourceImplTest {
     fun testMarvelCharactersById() {
 
         CoroutineScope(Dispatchers.Default).launch {
-            val publicKey = "dvksjncjknkjfn"
-            val privateKey = "dfscndfvkvdfklvmd"
+
             val characterId = 1017100
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
             val response = Response.success(dataObject)

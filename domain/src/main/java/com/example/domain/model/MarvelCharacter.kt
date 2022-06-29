@@ -1,6 +1,5 @@
 package com.example.domain.model
 
-
 data class MarvelCharacter(
     var id: Int,
     var name: String,
