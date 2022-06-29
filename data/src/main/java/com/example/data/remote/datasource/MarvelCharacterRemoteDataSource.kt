@@ -1,6 +1,6 @@
 package com.example.data.remote.datasource
 
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.NetworkResponse
 import com.example.data.entity.CharacterListResponse
 
 interface MarvelCharacterRemoteDataSource {
@@ -9,13 +9,13 @@ interface MarvelCharacterRemoteDataSource {
         publicKey: String,
         hash: String,
         time: Long
-    ): NetworkStatus<CharacterListResponse>
+    ): NetworkResponse<CharacterListResponse>
 
     suspend  fun getMarvelCharacterByCharacterId(
         publicKey: String,
         hash: String,
         time: Long,
         characterId:Int
-    ): NetworkStatus<CharacterListResponse>
+    ): NetworkResponse<CharacterListResponse>
 
 }

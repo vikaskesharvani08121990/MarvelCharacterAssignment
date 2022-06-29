@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.common.base.BaseFragment
-import com.example.common.utils.network.NetworkStatus
-import com.example.core.coreComponent
+import com.example.appcommon.base.BaseFragment
+import com.example.appcommon.utils.NetworkResponse
+import com.example.approot.rootComponent
 import com.example.domain.model.MarvelCharacter
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.R
@@ -20,7 +20,7 @@ import com.example.marvelcharcterapp.di.DaggerCharacterAppComponent
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharactersViewModel
 import javax.inject.Inject
 
-class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelItemClickListener {
+class MarvelCharacterListFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -34,7 +34,7 @@ class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelI
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DaggerCharacterAppComponent.factory()
-            .create(this@MarvelCharacterListFragment.coreComponent()).inject(this)
+            .create(this@MarvelCharacterListFragment.rootComponent()).inject(this)
     }
 
     override fun onCreateView(
@@ -61,19 +61,25 @@ class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelI
             BuildConfig.PRIVATE_KEY,
             System.currentTimeMillis()
         )
-        adapter = CharacterListAdapter(ArrayList(), this)
+        adapter = CharacterListAdapter(ArrayList()) { marvelCharacter ->
+            val action =
+                MarvelCharacterListFragmentDirections.actionMarvelCharacterListFragmentToMarvelCharacterDetailsFragment(
+                    characterId = marvelCharacter.id
+                )
+            findNavController().navigate(action)
+        }
         binding.adapter = adapter
         viewModel.marvelCharacterList.observe(viewLifecycleOwner) { networkState ->
             when (networkState) {
-                is NetworkStatus.Loading -> {
-                    showLoading()
+                is NetworkResponse.Loading -> {
+                    showProgress()
                 }
-                is NetworkStatus.Error -> {
-                    hideLoading()
-                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode),true)
+                is NetworkResponse.Error -> {
+                    hideProgress()
+                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode))
                 }
-                is NetworkStatus.Success -> {
-                    hideLoading()
+                is NetworkResponse.Success -> {
+                    hideProgress()
                     if (networkState.data != null && networkState.data!!.isNotEmpty())
                         adapter.updateAdapter(networkState.data!!)
                 }
@@ -84,20 +90,12 @@ class MarvelCharacterListFragment : BaseFragment(), CharacterListAdapter.MarvelI
 
 
 
-    override fun showLoading() {
+    override fun showProgress() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideProgress() {
         binding.progressBar.visibility = View.GONE
-    }
-
-    override fun onClick(data: MarvelCharacter) {
-        val action =
-            MarvelCharacterListFragmentDirections.actionMarvelCharacterListFragmentToMarvelCharacterDetailsFragment(
-                characterId = data.id
-            )
-        findNavController().navigate(action)
     }
 
 

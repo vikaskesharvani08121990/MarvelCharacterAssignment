@@ -1,42 +1,42 @@
 package com.example.data.utils
 
 
-import com.example.common.utils.CONNECT_EXCEPTION_CODE
-import com.example.common.utils.SOCKET_TIME_OUT_EXCEPTION_CODE
-import com.example.common.utils.UNKNOWN_HOST_EXCEPTION_CODE
-import com.example.common.utils.UNKNOWN_NETWORK_EXCEPTION_CODE
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.CONNECTION_ERROR_CODE
+import com.example.appcommon.utils.SOCKET_TIME_OUT_ERROR_CODE
+import com.example.appcommon.utils.UNKNOWN_HOST_ERROR_CODE
+import com.example.appcommon.utils.UNKNOWN_NETWORK_ERROR_CODE
+import com.example.appcommon.utils.NetworkResponse
 import retrofit2.HttpException
 import retrofit2.Response
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): NetworkStatus<T> {
+suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): NetworkResponse<T> {
     try {
         val response = call.invoke()
         if (response.isSuccessful) {
             if (response.body() != null) {
-                return NetworkStatus.Success(response.body())
+                return NetworkResponse.Success(response.body())
             }
         }
-        return NetworkStatus.Error(response.message())
+        return NetworkResponse.Error(response.message())
     } catch (e: Exception) {
         return when (e) {
             is ConnectException -> {
-                NetworkStatus.Error(errorCode = CONNECT_EXCEPTION_CODE)
+                NetworkResponse.Error(errorCode = CONNECTION_ERROR_CODE)
             }
             is UnknownHostException -> {
-                NetworkStatus.Error(errorCode = UNKNOWN_HOST_EXCEPTION_CODE)
+                NetworkResponse.Error(errorCode = UNKNOWN_HOST_ERROR_CODE)
             }
             is SocketTimeoutException -> {
-                NetworkStatus.Error(errorCode = SOCKET_TIME_OUT_EXCEPTION_CODE)
+                NetworkResponse.Error(errorCode = SOCKET_TIME_OUT_ERROR_CODE)
             }
             is HttpException -> {
-                NetworkStatus.Error(errorCode = UNKNOWN_NETWORK_EXCEPTION_CODE)
+                NetworkResponse.Error(errorCode = UNKNOWN_NETWORK_ERROR_CODE)
             }
             else -> {
-                NetworkStatus.Error(errorCode = UNKNOWN_NETWORK_EXCEPTION_CODE)
+                NetworkResponse.Error(errorCode = UNKNOWN_NETWORK_ERROR_CODE)
             }
         }
     }

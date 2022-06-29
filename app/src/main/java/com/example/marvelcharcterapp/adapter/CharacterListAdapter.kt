@@ -12,18 +12,21 @@ import com.example.marvelcharcterapp.databinding.RowCharacterBinding
 
 class CharacterListAdapter(
     private var characterList: List<MarvelCharacter>,
-    private val listener: MarvelItemClickListener
-) : RecyclerView.Adapter<CharacterListAdapter.ViewHolder>() {
+    private val click : (MarvelCharacter) -> Unit
+) : RecyclerView.Adapter<CharacterListAdapter.MarvelCharacterViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarvelCharacterViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.row_character, parent, false)
-        return ViewHolder(view)
+        return MarvelCharacterViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding?.click = listener
-        holder.binding?.data = characterList[position]
+    override fun onBindViewHolder(holder: MarvelCharacterViewHolder, position: Int) {
+        val data=characterList[position]
+        holder.binding?.data = data
+        holder.binding?.cvMain!!.setOnClickListener {
+            click(data)
+        }
 
     }
 
@@ -37,7 +40,7 @@ class CharacterListAdapter(
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class MarvelCharacterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding: RowCharacterBinding? = DataBindingUtil.bind(view)
 
         init {
@@ -45,8 +48,5 @@ class CharacterListAdapter(
         }
     }
 
-    interface MarvelItemClickListener {
-        fun onClick(data: MarvelCharacter)
-    }
 
 }

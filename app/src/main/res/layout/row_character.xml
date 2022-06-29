@@ -5,16 +5,13 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable
-            name="click"
-            type="com.example.marvelcharcterapp.adapter.CharacterListAdapter.MarvelItemClickListener" />
        <variable
            name="data"
            type="com.example.domain.model.MarvelCharacter" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:onClick="@{()->click.onClick(data)}"
+        android:id="@+id/cvMain"
         android:tag="@{data}"
         android:layout_width="match_parent"
         app:cardUseCompatPadding="true"

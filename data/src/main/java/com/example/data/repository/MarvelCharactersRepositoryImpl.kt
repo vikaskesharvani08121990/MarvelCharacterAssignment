@@ -1,7 +1,7 @@
 package com.example.data.repository
 
-import com.example.common.utils.MD5HashKey
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.MD5HashKey
+import com.example.appcommon.utils.NetworkResponse
 import com.example.data.mapper.DataMapper
 import com.example.data.remote.datasource.MarvelCharacterRemoteDataSource
 import com.example.domain.model.MarvelCharacter
@@ -18,24 +18,24 @@ class MarvelCharactersRepositoryImpl(
         publicKey: String,
         privateKey: String,
         time: Long
-    ): NetworkStatus<List<MarvelCharacter>> {
+    ): NetworkResponse<List<MarvelCharacter>> {
         val hash = mD5HashKey.getHash(publicKey, privateKey, time)
         return withContext(Dispatchers.IO) {
 
             when (val response =
                 marvelCharacterRemoteDataSource.getMarvelCharacters(publicKey, hash, time)) {
-                is NetworkStatus.Success -> {
-                    return@withContext NetworkStatus.Success(
+                is NetworkResponse.Success -> {
+                    return@withContext NetworkResponse.Success(
                         data = mapper.mapToListOfMarvelCharacter(
                             response.data!!
                         )
                     )
                 }
-                is NetworkStatus.Loading -> {
-                    return@withContext NetworkStatus.Loading()
+                is NetworkResponse.Loading -> {
+                    return@withContext NetworkResponse.Loading()
                 }
                 else -> {
-                    return@withContext NetworkStatus.Error(errorMessage = response.errorMessage)
+                    return@withContext NetworkResponse.Error(errorMessage = response.errorMessage)
                 }
 
             }
@@ -48,7 +48,7 @@ class MarvelCharactersRepositoryImpl(
         privateKey: String,
         time: Long,
         characterId: Int
-    ): NetworkStatus<MarvelCharacter> {
+    ): NetworkResponse<MarvelCharacter> {
         val hash = mD5HashKey.getHash(publicKey, privateKey, time)
         return withContext(Dispatchers.IO) {
 
@@ -60,17 +60,17 @@ class MarvelCharactersRepositoryImpl(
                     characterId
                 )
             when (response) {
-                is NetworkStatus.Success -> {
-                    return@withContext NetworkStatus.Success(
+                is NetworkResponse.Success -> {
+                    return@withContext NetworkResponse.Success(
                         data =
                         mapper.mapToCharacterDetails(response.data!!)
                     )
                 }
-                is NetworkStatus.Loading -> {
-                    return@withContext NetworkStatus.Loading()
+                is NetworkResponse.Loading -> {
+                    return@withContext NetworkResponse.Loading()
                 }
                 else -> {
-                    return@withContext NetworkStatus.Error(errorMessage = response.errorMessage)
+                    return@withContext NetworkResponse.Error(errorMessage = response.errorMessage)
                 }
 
             }

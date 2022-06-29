@@ -2,8 +2,8 @@ package com.example.marvelcharcterapp.viewmodel
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.common.utils.MD5HashKey
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.MD5HashKey
+import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.getOrAwaitLiveDataValue
@@ -37,7 +37,7 @@ class GetMarvelCharacterDetailsViewModelTest {
             val privateKey = BuildConfig.PRIVATE_KEY
             val characterId = 1017100
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            val response = NetworkStatus.Success(data = marvelCharacterDetails)
+            val response = NetworkResponse.Success(data = marvelCharacterDetails)
             Mockito.`when`(
                 useCase.invoke(
                     publicKey,

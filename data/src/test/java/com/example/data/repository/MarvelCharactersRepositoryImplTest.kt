@@ -1,8 +1,8 @@
 package com.example.data.repository
 
 
-import com.example.common.utils.MD5HashKey
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.MD5HashKey
+import com.example.appcommon.utils.NetworkResponse
 import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.datasource.MarvelCharacterRemoteDataSource
 import com.example.data.GetRepositoryMockDataFromStringJson
@@ -52,7 +52,7 @@ class MarvelCharactersRepositoryImplTest {
         CoroutineScope(Dispatchers.Default).launch {
 
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            val response = NetworkStatus.Success(data = dataObject)
+            val response = NetworkResponse.Success(data = dataObject)
             Mockito.`when`(
                 marvelCharacterRemoteDataSource.getMarvelCharacters(
                     publicKey,
@@ -78,7 +78,7 @@ class MarvelCharactersRepositoryImplTest {
         CoroutineScope(Dispatchers.Default).launch {
             val characterId = 1017100
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            val response = NetworkStatus.Success(data = dataObject)
+            val response = NetworkResponse.Success(data = dataObject)
             Mockito.`when`(
                 marvelCharacterRemoteDataSource.getMarvelCharacterByCharacterId(
                     publicKey,

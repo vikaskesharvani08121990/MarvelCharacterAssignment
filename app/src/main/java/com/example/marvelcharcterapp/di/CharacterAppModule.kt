@@ -2,8 +2,8 @@ package com.example.marvelcharcterapp.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.common.scopes.Fragment
-import com.example.common.scopes.ViewModelKey
+import com.example.appcommon.customscopes.FragmentScope
+import com.example.appcommon.customscopes.ViewModelKeyScope
 import com.example.marvelcharcterapp.factory.ViewModelFactory
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharacterDetailsViewModel
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharactersViewModel
@@ -14,17 +14,17 @@ import dagger.multibindings.IntoMap
 interface CharacterAppModule {
 
     @Binds
-    @Fragment
+    @FragmentScope
     fun bindViewModelFactory(factory: ViewModelFactory):ViewModelProvider.Factory
 
 
     @Binds
     @IntoMap
-    @ViewModelKey(GetMarvelCharactersViewModel::class)
+    @ViewModelKeyScope(GetMarvelCharactersViewModel::class)
     fun bindGetMarvelCharactersViewModel(getMarvelCharactersViewModel: GetMarvelCharactersViewModel):ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(GetMarvelCharacterDetailsViewModel::class)
+    @ViewModelKeyScope(GetMarvelCharacterDetailsViewModel::class)
     fun bindGetMarvelCharacterDetailsViewModel(getMarvelCharacterDetailsViewModel: GetMarvelCharacterDetailsViewModel):ViewModel
 }

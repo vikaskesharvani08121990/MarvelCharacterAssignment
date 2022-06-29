@@ -1,6 +1,6 @@
 package com.example.domain.usecase
 
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
 
 interface GetMarvelCharacterDetailsUseCase {
@@ -9,5 +9,5 @@ interface GetMarvelCharacterDetailsUseCase {
         publicKey: String,
         privateKey: String,
         time: Long, characterId: Int
-    ): NetworkStatus<MarvelCharacter>
+    ): NetworkResponse<MarvelCharacter>
 }

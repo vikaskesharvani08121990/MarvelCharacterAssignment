@@ -1,8 +1,8 @@
 package com.example.domain.usecase
 
 
-import com.example.common.utils.MD5HashKey
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.MD5HashKey
+import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.marvelCharacterList
 import com.example.domain.privateKey
 import com.example.domain.publicKey
@@ -34,7 +34,7 @@ class GetMarvelCharactersListUseCaseImplTest {
     fun getMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
-            val response = NetworkStatus.Success(data = marvelCharacterList)
+            val response = NetworkResponse.Success(data = marvelCharacterList)
             Mockito.`when`(
                 repository.getMarvelCharacters(
                     publicKey,

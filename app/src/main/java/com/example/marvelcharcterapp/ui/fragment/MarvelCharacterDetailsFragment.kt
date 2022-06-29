@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.example.common.base.BaseFragment
-import com.example.common.utils.network.NetworkStatus
-import com.example.core.coreComponent
+import com.example.appcommon.base.BaseFragment
+import com.example.appcommon.utils.NetworkResponse
+import com.example.approot.rootComponent
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.R
 import com.example.marvelcharcterapp.databinding.LayoutFragmentCharacterDetailsBinding
@@ -32,7 +32,7 @@ class MarvelCharacterDetailsFragment : BaseFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         DaggerCharacterAppComponent.factory()
-            .create(this@MarvelCharacterDetailsFragment.coreComponent()).inject(this)
+            .create(this@MarvelCharacterDetailsFragment.rootComponent()).inject(this)
     }
 
     override fun onCreateView(
@@ -65,15 +65,15 @@ class MarvelCharacterDetailsFragment : BaseFragment() {
 
         viewModel.marvelCharacterDetails.observe(viewLifecycleOwner) { networkState ->
             when (networkState) {
-                is NetworkStatus.Loading -> {
-                    showLoading()
+                is NetworkResponse.Loading -> {
+                    showProgress()
                 }
-                is NetworkStatus.Error -> {
-                    hideLoading()
-                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode),true)
+                is NetworkResponse.Error -> {
+                    hideProgress()
+                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode))
                 }
-                is NetworkStatus.Success -> {
-                    hideLoading()
+                is NetworkResponse.Success -> {
+                    hideProgress()
                     networkState.data?.let { data ->
                         binding.data = data
                     }
@@ -84,11 +84,11 @@ class MarvelCharacterDetailsFragment : BaseFragment() {
         }
     }
 
-    override fun showLoading() {
+    override fun showProgress() {
         binding.progressBar.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override fun hideProgress() {
         binding.progressBar.visibility = View.GONE
     }
 

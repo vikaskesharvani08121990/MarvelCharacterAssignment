@@ -1,6 +1,6 @@
 package com.example.data.remote.datasource
 
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.NetworkResponse
 import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.api.MarvelAPI
 import com.example.data.utils.safeApiCall
@@ -12,7 +12,7 @@ class MarvelCharacterRemoteDataSourceImpl(private val apiService: MarvelAPI) :
         publicKey: String,
         hash: String,
         time: Long
-    ): NetworkStatus<CharacterListResponse> {
+    ): NetworkResponse<CharacterListResponse> {
         return safeApiCall { apiService.getMarvelCharacters(publicKey, hash, time.toString()) }
     }
 
@@ -21,7 +21,7 @@ class MarvelCharacterRemoteDataSourceImpl(private val apiService: MarvelAPI) :
         hash: String,
         time: Long,
         characterId: Int
-    ): NetworkStatus<CharacterListResponse> {
+    ): NetworkResponse<CharacterListResponse> {
         return safeApiCall {
             apiService.getMarvelCharacterByCharacterId(
                 characterId,

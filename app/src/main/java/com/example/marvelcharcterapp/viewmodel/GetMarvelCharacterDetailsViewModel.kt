@@ -3,7 +3,7 @@ package com.example.marvelcharcterapp.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.utils.network.NetworkStatus
+import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ class GetMarvelCharacterDetailsViewModel @Inject constructor(
 ) : ViewModel() {
 
     internal val marvelCharacterDetails =
-        MutableLiveData<NetworkStatus<MarvelCharacter>>()
+        MutableLiveData<NetworkResponse<MarvelCharacter>>()
 
     internal fun getMarvelCharacterDetails(
         publicKey: String,
