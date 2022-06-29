@@ -46,7 +46,6 @@ class MarvelCharacterListFragment : BaseFragment() {
             container,
             false
         )
-
         return binding.root
     }
 
@@ -70,7 +69,9 @@ class MarvelCharacterListFragment : BaseFragment() {
                 }
                 is NetworkResponse.Error -> {
                     hideProgress()
-                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode))
+                    showMessage(
+                        networkState.errorMessage ?: getErrorMessage(networkState.errorCode)
+                    )
                 }
                 is NetworkResponse.Success -> {
                     hideProgress()
@@ -78,11 +79,8 @@ class MarvelCharacterListFragment : BaseFragment() {
                         adapter.updateAdapter(networkState.data!!)
                 }
             }
-
         }
     }
-
-
 
     override fun showProgress() {
         binding.progressBar.visibility = View.VISIBLE
@@ -91,6 +89,5 @@ class MarvelCharacterListFragment : BaseFragment() {
     override fun hideProgress() {
         binding.progressBar.visibility = View.GONE
     }
-
 
 }

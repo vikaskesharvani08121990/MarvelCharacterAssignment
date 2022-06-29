@@ -11,5 +11,6 @@ abstract class AppRootModule {
 
     @Binds
     @Singleton
-    abstract fun bindApplication(application: BaseApplication):Application
+    abstract fun bindApplication(application: BaseApplication): Application
+
 }

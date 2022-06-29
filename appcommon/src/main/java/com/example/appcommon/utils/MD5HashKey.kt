@@ -11,7 +11,6 @@ class MD5HashKey {
     ): String {
         val request = "${time}${privateKey}${publicKey}"
         return getMd5(request)
-
     }
 
     private fun getMd5(input: String): String {

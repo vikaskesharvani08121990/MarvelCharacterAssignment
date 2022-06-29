@@ -26,7 +26,7 @@ import org.mockito.kotlin.verify
 class GetMarvelCharacterDetailsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
-    
+
     @Mock
     lateinit var useCase: GetMarvelCharacterDetailsUseCase
 

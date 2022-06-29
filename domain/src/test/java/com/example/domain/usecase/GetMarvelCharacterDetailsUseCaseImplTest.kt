@@ -25,10 +25,9 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
     @Mock
     lateinit var repository: MarvelCharactersRepository
 
-     @Mock
+    @Mock
     lateinit var useCase: GetMarvelCharacterDetailsUseCase
-
-
+    
     @Test
     fun getMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {

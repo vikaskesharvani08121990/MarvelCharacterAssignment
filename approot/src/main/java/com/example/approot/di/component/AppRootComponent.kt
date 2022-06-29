@@ -16,13 +16,13 @@ interface AppRootComponent {
 
     val dataRepository: MarvelCharactersRepository
 
-    val listUseCase:GetMarvelCharactersListUseCase
+    val listUseCase: GetMarvelCharactersListUseCase
 
     val detailsUseCase: GetMarvelCharacterDetailsUseCase
 
     @Component.Factory
-    interface Factory{
-        fun create(@BindsInstance context: Context):AppRootComponent
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppRootComponent
     }
 
 }

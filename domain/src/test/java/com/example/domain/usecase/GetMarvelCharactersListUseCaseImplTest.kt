@@ -28,7 +28,6 @@ class GetMarvelCharactersListUseCaseImplTest {
     @Mock
     lateinit var useCase: GetMarvelCharactersListUseCase
 
-
     @Test
     fun getMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {

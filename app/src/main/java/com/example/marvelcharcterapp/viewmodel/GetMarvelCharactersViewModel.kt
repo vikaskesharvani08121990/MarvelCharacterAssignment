@@ -16,6 +16,7 @@ class GetMarvelCharactersViewModel @Inject constructor(
 ) : ViewModel() {
 
     internal val marvelCharacterList = MutableLiveData<NetworkResponse<List<MarvelCharacter>>>()
+
     init {
         getMarvelCharacters(
             BuildConfig.PUBLIC_KEY,
@@ -23,6 +24,7 @@ class GetMarvelCharactersViewModel @Inject constructor(
             System.currentTimeMillis()
         )
     }
+
     internal fun getMarvelCharacters(
         publicKey: String,
         privateKey: String,

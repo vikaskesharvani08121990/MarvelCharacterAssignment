@@ -17,9 +17,10 @@ import com.example.marvelcharcterapp.di.DaggerCharacterAppComponent
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharacterDetailsViewModel
 import javax.inject.Inject
 
-private const val CHARACTER_ID="characterId"
+private const val CHARACTER_ID = "characterId"
 
 class MarvelCharacterDetailsFragment : BaseFragment() {
+
     private var characterId: Int = 0
 
     @Inject
@@ -70,14 +71,15 @@ class MarvelCharacterDetailsFragment : BaseFragment() {
                 }
                 is NetworkResponse.Error -> {
                     hideProgress()
-                    showMessage( networkState.errorMessage ?: getErrorMessage(networkState.errorCode))
+                    showMessage(
+                        networkState.errorMessage ?: getErrorMessage(networkState.errorCode)
+                    )
                 }
                 is NetworkResponse.Success -> {
                     hideProgress()
                     networkState.data?.let { data ->
                         binding.data = data
                     }
-
                 }
             }
 

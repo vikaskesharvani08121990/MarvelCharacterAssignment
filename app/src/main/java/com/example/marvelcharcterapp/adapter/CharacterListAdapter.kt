@@ -12,7 +12,7 @@ import com.example.marvelcharcterapp.databinding.RowCharacterBinding
 
 class CharacterListAdapter(
     private var characterList: List<MarvelCharacter>,
-    private val click : (MarvelCharacter) -> Unit
+    private val click: (MarvelCharacter) -> Unit
 ) : RecyclerView.Adapter<CharacterListAdapter.MarvelCharacterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarvelCharacterViewHolder {
@@ -22,7 +22,7 @@ class CharacterListAdapter(
     }
 
     override fun onBindViewHolder(holder: MarvelCharacterViewHolder, position: Int) {
-        val data=characterList[position]
+        val data = characterList[position]
         holder.binding?.data = data
         holder.binding?.cvMain!!.setOnClickListener {
             click(data)
