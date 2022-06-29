@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
-import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
+import com.example.domain.usecase.GetMarvelCharacterDetailsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetMarvelCharacterDetailsViewModel @Inject constructor(
-    private val useCase: GetMarvelCharacterDetailsUseCaseImpl
+    private val useCase: GetMarvelCharacterDetailsUseCase
 ) : ViewModel() {
 
     internal val marvelCharacterDetails =

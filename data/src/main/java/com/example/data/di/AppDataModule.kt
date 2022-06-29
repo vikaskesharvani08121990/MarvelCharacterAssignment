@@ -8,6 +8,10 @@ import com.example.data.remote.datasource.MarvelCharacterRemoteDataSource
 import com.example.data.remote.datasource.MarvelCharacterRemoteDataSourceImpl
 import com.example.data.repository.MarvelCharactersRepositoryImpl
 import com.example.domain.repository.MarvelCharactersRepository
+import com.example.domain.usecase.GetMarvelCharacterDetailsUseCase
+import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
+import com.example.domain.usecase.GetMarvelCharactersListUseCase
+import com.example.domain.usecase.GetMarvelCharactersListUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -31,6 +35,15 @@ class AppDataModule {
     @Singleton
     @Provides
     fun provideMapper(): DataMapper = DataMapperImpl()
+
+    @Singleton
+    @Provides
+    fun provideGetMarvelCharactersListUseCase(repository: MarvelCharactersRepository): GetMarvelCharactersListUseCase = GetMarvelCharactersListUseCaseImpl(repository)
+
+    @Singleton
+    @Provides
+    fun provideGetMarvelCharacterDetailsUseCase(repository: MarvelCharactersRepository): GetMarvelCharacterDetailsUseCase = GetMarvelCharacterDetailsUseCaseImpl(repository)
+
 
     @Singleton
     @Provides

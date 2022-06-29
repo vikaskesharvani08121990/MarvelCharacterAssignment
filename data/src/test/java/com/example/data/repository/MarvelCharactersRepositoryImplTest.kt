@@ -16,7 +16,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.times
@@ -28,13 +27,13 @@ class MarvelCharactersRepositoryImplTest {
     @Mock
     lateinit var marvelCharacterRemoteDataSource: MarvelCharacterRemoteDataSource
 
-    @InjectMocks
+    @Mock
     lateinit var repository: MarvelCharactersRepository
 
     private var dataObject: CharacterListResponse? = null
 
-    private val publicKey = "dvksjncjknkjfn"
-    private val privateKey = "dfscndfvkvdfklvmd"
+    private val publicKey = "9eda5d952e9fb001de15ad03bcfdd1a8"
+    private val privateKey = "76162ae556a83dd9872d502bec095330ddec9ca4"
 
     @Before
     fun setUp() {

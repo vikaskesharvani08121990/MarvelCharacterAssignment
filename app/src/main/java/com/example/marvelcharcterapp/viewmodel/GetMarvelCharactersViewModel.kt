@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
-import com.example.domain.usecase.GetMarvelCharactersListUseCaseImpl
+import com.example.domain.usecase.GetMarvelCharactersListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class GetMarvelCharactersViewModel @Inject constructor(
-    private val useCase: GetMarvelCharactersListUseCaseImpl
+    private val useCase: GetMarvelCharactersListUseCase
 ) : ViewModel() {
 
     internal val marvelCharacterList = MutableLiveData<NetworkResponse<List<MarvelCharacter>>>()

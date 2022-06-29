@@ -7,24 +7,22 @@ import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory @Inject constructor(
-    private val creators: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>) :
+    private val viewModels: @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>) :
     ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        var creator: Provider<out ViewModel>? = creators[modelClass]
-        if (creator == null) {
-            for ((key, value) in creators) {
-                if (modelClass.isAssignableFrom(key)) {
-                    creator = value
-                    break
-                }
+        var viewModel: Provider<out ViewModel>? = viewModels[modelClass]
+        if (viewModel == null) for ((key, value) in viewModels) {
+            if (modelClass.isAssignableFrom(key)) {
+                value.also { viewModel = it }
+                break
             }
         }
 
-        requireNotNull(creator) { "unknown model class $modelClass" }
+        requireNotNull(viewModel) { "invalid model class $modelClass" }
 
         return try {
-            creator.get() as T
+            viewModel!!.get() as T
         } catch (e: Exception) {
             throw RuntimeException(e)
         }

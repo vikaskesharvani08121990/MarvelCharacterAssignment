@@ -4,7 +4,7 @@ package com.example.marvelcharcterapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.appcommon.utils.MD5HashKey
 import com.example.appcommon.utils.NetworkResponse
-import com.example.domain.usecase.GetMarvelCharacterDetailsUseCaseImpl
+import com.example.domain.usecase.GetMarvelCharacterDetailsUseCase
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.getOrAwaitLiveDataValue
 import com.example.marvelcharcterapp.marvelCharacterDetails
@@ -28,7 +28,7 @@ class GetMarvelCharacterDetailsViewModelTest {
     val rule = InstantTaskExecutorRule()
     
     @Mock
-    lateinit var useCase: GetMarvelCharacterDetailsUseCaseImpl
+    lateinit var useCase: GetMarvelCharacterDetailsUseCase
 
     @Test
     fun testMarvelCharacterDetails() {

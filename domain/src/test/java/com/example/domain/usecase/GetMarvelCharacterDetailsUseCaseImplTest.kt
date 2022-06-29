@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.kotlin.times
@@ -26,7 +25,7 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
     @Mock
     lateinit var repository: MarvelCharactersRepository
 
-     @InjectMocks
+     @Mock
     lateinit var useCase: GetMarvelCharacterDetailsUseCase
 
 
