@@ -1,6 +1,6 @@
 package com.example.domain.repository
 
-import com.example.appcommon.utils.NetworkResponse
+import com.example.common.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
 
 interface MarvelCharactersRepository {

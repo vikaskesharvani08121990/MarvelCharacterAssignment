@@ -1,11 +1,11 @@
 package com.example.data.utils
 
 
-import com.example.appcommon.utils.CONNECTION_ERROR_CODE
-import com.example.appcommon.utils.SOCKET_TIME_OUT_ERROR_CODE
-import com.example.appcommon.utils.UNKNOWN_HOST_ERROR_CODE
-import com.example.appcommon.utils.UNKNOWN_NETWORK_ERROR_CODE
-import com.example.appcommon.utils.NetworkResponse
+import com.example.common.utils.CONNECTION_ERROR_CODE
+import com.example.common.utils.SOCKET_TIME_OUT_ERROR_CODE
+import com.example.common.utils.UNKNOWN_HOST_ERROR_CODE
+import com.example.common.utils.UNKNOWN_NETWORK_ERROR_CODE
+import com.example.common.utils.NetworkResponse
 import retrofit2.HttpException
 import retrofit2.Response
 import java.net.ConnectException

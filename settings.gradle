@@ -16,5 +16,5 @@ rootProject.name = "MarvelCharcterApp"
 include ':app'
 include ':data'
 include ':domain'
-include ':approot'
-include ':appcommon'
+include ':di'
+include ':common'

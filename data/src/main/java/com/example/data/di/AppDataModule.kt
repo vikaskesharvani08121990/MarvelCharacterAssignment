@@ -1,6 +1,6 @@
 package com.example.data.di
 
-import com.example.appcommon.utils.MD5HashKey
+import com.example.common.utils.MD5HashKey
 import com.example.data.mapper.DataMapper
 import com.example.data.mapper.DataMapperImpl
 import com.example.data.remote.api.MarvelAPI

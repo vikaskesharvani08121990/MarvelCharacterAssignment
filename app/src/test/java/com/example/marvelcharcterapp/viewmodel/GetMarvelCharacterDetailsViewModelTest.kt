@@ -2,8 +2,8 @@ package com.example.marvelcharcterapp.viewmodel
 
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.appcommon.utils.MD5HashKey
-import com.example.appcommon.utils.NetworkResponse
+import com.example.common.utils.MD5HashKey
+import com.example.common.utils.NetworkResponse
 import com.example.domain.model.MarvelCharacter
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCase
 import com.example.marvelcharcterapp.BuildConfig

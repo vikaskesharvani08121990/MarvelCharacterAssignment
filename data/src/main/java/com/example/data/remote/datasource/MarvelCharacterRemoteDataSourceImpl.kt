@@ -1,6 +1,6 @@
 package com.example.data.remote.datasource
 
-import com.example.appcommon.utils.NetworkResponse
+import com.example.common.utils.NetworkResponse
 import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.api.MarvelAPI
 import com.example.data.utils.apiCall

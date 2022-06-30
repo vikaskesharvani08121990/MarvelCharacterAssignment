@@ -2,8 +2,8 @@ package com.example.marvelcharcterapp.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.appcommon.customscopes.FragmentScope
-import com.example.appcommon.customscopes.ViewModelKeyScope
+import com.example.common.customscopes.FragmentScope
+import com.example.common.customscopes.ViewModelKeyScope
 import com.example.marvelcharcterapp.factory.ViewModelFactory
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharacterDetailsViewModel
 import com.example.marvelcharcterapp.viewmodel.GetMarvelCharactersViewModel

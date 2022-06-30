@@ -1,8 +1,8 @@
 package com.example.data.mapper
 
-import com.example.appcommon.utils.PORTRAIT_MEDIUM
-import com.example.appcommon.utils.PORTRAIT_SMALL
-import com.example.appcommon.utils.PORTRAIT_XLARGE
+import com.example.common.utils.PORTRAIT_MEDIUM
+import com.example.common.utils.PORTRAIT_SMALL
+import com.example.common.utils.PORTRAIT_XLARGE
 import com.example.data.entity.CharacterListResponse
 import com.example.data.entity.MarvelCharacterResult
 import com.example.data.entity.Thumbnail

@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.appcommon.base.BaseFragment
-import com.example.appcommon.utils.NetworkResponse
-import com.example.approot.rootComponent
+import com.example.common.base.BaseFragment
+import com.example.common.utils.NetworkResponse
+import com.example.di.rootComponent
 import com.example.marvelcharcterapp.R
 import com.example.marvelcharcterapp.adapter.CharacterListAdapter
 import com.example.marvelcharcterapp.databinding.LayoutFragmentCharacterListBinding

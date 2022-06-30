@@ -1,6 +1,6 @@
 package com.example.data.di
 
-import com.example.appcommon.utils.BASE_URL
+import com.example.common.utils.BASE_URL
 import com.example.data.remote.api.MarvelAPI
 
 import dagger.Module
