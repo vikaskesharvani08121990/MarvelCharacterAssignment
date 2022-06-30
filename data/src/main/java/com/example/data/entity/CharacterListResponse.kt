@@ -4,19 +4,19 @@ import com.google.gson.annotations.SerializedName
 
 data class CharacterListResponse(
     @SerializedName("attributionHTML")
-    val attributionHTML: String?,
+    val attributionHTML: String?=null,
     @SerializedName("attributionText")
-    val attributionText: String?,
+    val attributionText: String?=null,
     @SerializedName("code")
     val code: Int?,
     @SerializedName("copyright")
-    val copyright: String?,
+    val copyright: String?=null,
     @SerializedName("data")
-    val `data`: Data?,
+    val `data`: Data?=null,
     @SerializedName("etag")
-    val etag: String?,
+    val etag: String?=null,
     @SerializedName("status")
-    val status: String?
+    val status: String?=null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
