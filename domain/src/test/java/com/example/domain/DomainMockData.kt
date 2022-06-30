@@ -12,6 +12,5 @@ val marvelCharacterDetails = MarvelCharacter(
 )
 val marvelCharacterList = listOf(marvelCharacterDetails, marvelCharacterDetails)
 
-const val publicKey = "9eda5d952e9fb001de15ad03bcfdd1a8"
-const val privateKey = "76162ae556a83dd9872d502bec095330ddec9ca4"
-const val characterId = 1017100
+const val publicKey = "577ggt5654552e9fb001de15ad"
+const val privateKey = "76ty63g56a83dd9872d502bec"

@@ -4,6 +4,7 @@ package com.example.marvelcharcterapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.appcommon.utils.MD5HashKey
 import com.example.appcommon.utils.NetworkResponse
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.usecase.GetMarvelCharactersListUseCase
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.getOrAwaitLiveDataValue
@@ -30,7 +31,7 @@ class GetMarvelCharactersViewModelTest {
     lateinit var useCase: GetMarvelCharactersListUseCase
 
     @Test
-    fun testMarvelCharacters() {
+    fun positiveTestGetMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
             val publicKey = BuildConfig.PUBLIC_KEY
             val privateKey = BuildConfig.PRIVATE_KEY
@@ -58,4 +59,93 @@ class GetMarvelCharactersViewModelTest {
         }
 
     }
+
+    @Test
+    fun negativeTestGetMarvelCharactersWithAllInvalidParameter() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val publicKey = ""
+            val privateKey = ""
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<List<MarvelCharacter>>()
+            Mockito.`when`(
+                useCase.invoke(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+
+            val viewModel = GetMarvelCharactersViewModel(useCase)
+            viewModel.getMarvelCharacters(publicKey, privateKey, System.currentTimeMillis())
+            val result = viewModel.marvelCharacterList.getOrAwaitLiveDataValue()
+
+            assertThat(result?.data == null).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacters(
+                publicKey,
+                hash,
+                System.currentTimeMillis()
+            )
+        }
+
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharactersWithInvalidPublicKey() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val publicKey = ""
+            val privateKey = BuildConfig.PRIVATE_KEY
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<List<MarvelCharacter>>()
+            Mockito.`when`(
+                useCase.invoke(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+
+            val viewModel = GetMarvelCharactersViewModel(useCase)
+            viewModel.getMarvelCharacters(publicKey, privateKey, System.currentTimeMillis())
+            val result = viewModel.marvelCharacterList.getOrAwaitLiveDataValue()
+
+            assertThat(result?.data == null).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacters(
+                publicKey,
+                hash,
+                System.currentTimeMillis()
+            )
+        }
+
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharactersWithInvalidPrivateKey() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val publicKey = BuildConfig.PUBLIC_KEY
+            val privateKey = ""
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<List<MarvelCharacter>>()
+            Mockito.`when`(
+                useCase.invoke(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+
+            val viewModel = GetMarvelCharactersViewModel(useCase)
+            viewModel.getMarvelCharacters(publicKey, privateKey, System.currentTimeMillis())
+            val result = viewModel.marvelCharacterList.getOrAwaitLiveDataValue()
+
+            assertThat(result?.data == null).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacters(
+                publicKey,
+                hash,
+                System.currentTimeMillis()
+            )
+        }
+
+    }
+
+
 }

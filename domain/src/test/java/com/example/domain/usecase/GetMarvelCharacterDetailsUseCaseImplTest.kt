@@ -1,9 +1,8 @@
 package com.example.domain.usecase
 
-import com.example.appcommon.utils.MD5HashKey
 import com.example.appcommon.utils.NetworkResponse
-import com.example.domain.characterId
 import com.example.domain.marvelCharacterDetails
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.privateKey
 import com.example.domain.publicKey
 import com.example.domain.repository.MarvelCharactersRepository
@@ -29,15 +28,14 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
     lateinit var useCase: GetMarvelCharacterDetailsUseCase
     
     @Test
-    fun getMarvelCharacters() {
+    fun positiveTestGetMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
-
-            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+             val characterId = 1017100
             val response = NetworkResponse.Success(data = marvelCharacterDetails)
             Mockito.`when`(
                 repository.getMarvelCharacterById(
                     publicKey,
-                    hash,
+                    privateKey,
                     System.currentTimeMillis(),
                     characterId
                 )
@@ -52,8 +50,63 @@ class GetMarvelCharacterDetailsUseCaseImplTest {
                 characterId
             )
             Truth.assertThat(wantedResponse.data != null).isTrue()
-            Truth.assertThat(wantedResponse.data?.id == 1017100).isTrue()
+            Truth.assertThat(wantedResponse.data?.id == characterId).isTrue()
         }
 
     }
+
+    @Test
+    fun negativeTestForMarvelCharactersWhenPrivateAndPublicKeyIsInvalid() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val characterId = 1017100
+            val response = NetworkResponse.Error<MarvelCharacter>()
+            Mockito.`when`(
+                repository.getMarvelCharacterById(
+                    "",
+                    "",
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+
+            val wantedResponse =
+                useCase.invoke(publicKey, privateKey, System.currentTimeMillis(), characterId)
+            verify(repository, times(1)).getMarvelCharacterById(
+                "",
+                "",
+                System.currentTimeMillis(),
+                characterId
+            )
+            Truth.assertThat(wantedResponse.data == null).isTrue()
+        }
+
+    }
+
+    @Test
+    fun negativeTestForMarvelCharactersWhenCharacterIdIsInvalid() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val characterId = 0
+            val response = NetworkResponse.Error<MarvelCharacter>()
+            Mockito.`when`(
+                repository.getMarvelCharacterById(
+                    publicKey,
+                    privateKey,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+
+            val wantedResponse =
+                useCase.invoke(publicKey, privateKey, System.currentTimeMillis(), characterId)
+            verify(repository, times(1)).getMarvelCharacterById(
+                publicKey,
+                privateKey,
+                System.currentTimeMillis(),
+                characterId
+            )
+            Truth.assertThat(wantedResponse.data == null).isTrue()
+        }
+
+    }
+
 }

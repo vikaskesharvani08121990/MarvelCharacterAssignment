@@ -3,9 +3,9 @@ package com.example.data.repository
 
 import com.example.appcommon.utils.MD5HashKey
 import com.example.appcommon.utils.NetworkResponse
+import com.example.data.GetRepositoryMockDataFromStringJson
 import com.example.data.entity.CharacterListResponse
 import com.example.data.remote.datasource.MarvelCharacterRemoteDataSource
-import com.example.data.GetRepositoryMockDataFromStringJson
 import com.example.domain.repository.MarvelCharactersRepository
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.CoroutineScope
@@ -32,8 +32,8 @@ class MarvelCharactersRepositoryImplTest {
 
     private var dataObject: CharacterListResponse? = null
 
-    private val publicKey = "9eda5d952e9fb001de15ad03bcfdd1a8"
-    private val privateKey = "76162ae556a83dd9872d502bec095330ddec9ca4"
+    private val publicKey = "74674dhr56tuu79fb001de15ad03tbshyr"
+    private val privateKey = "75647er55s55a83dd9872d502bec06745"
 
     @Before
     fun setUp() {
@@ -47,7 +47,7 @@ class MarvelCharactersRepositoryImplTest {
     }
 
     @Test
-    fun getMarvelCharacters() {
+    fun positiveTestGetMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
 
             val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
@@ -72,7 +72,83 @@ class MarvelCharactersRepositoryImplTest {
     }
 
     @Test
-    fun getMarvelCharactersById() {
+    fun negativeTestGetMarvelCharactersWhenInvalidPublicAndPrivateKey() {
+        CoroutineScope(Dispatchers.Default).launch {
+
+            val hash = MD5HashKey().getHash("", "", System.currentTimeMillis())
+            val response = NetworkResponse.Error<CharacterListResponse>()
+            Mockito.`when`(
+                marvelCharacterRemoteDataSource.getMarvelCharacters(
+                    "",
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+            val wantedResponse =
+                repository.getMarvelCharacters("", hash, System.currentTimeMillis())
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacters(
+                "",
+                hash,
+                System.currentTimeMillis()
+            )
+            assertThat(response == wantedResponse).isTrue()
+        }
+
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharactersWhenInvalidPublicKey() {
+        CoroutineScope(Dispatchers.Default).launch {
+
+            val hash = MD5HashKey().getHash("", privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<CharacterListResponse>()
+            Mockito.`when`(
+                marvelCharacterRemoteDataSource.getMarvelCharacters(
+                    "",
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+            val wantedResponse =
+                repository.getMarvelCharacters("", hash, System.currentTimeMillis())
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacters(
+                "",
+                hash,
+                System.currentTimeMillis()
+            )
+            assertThat(response == wantedResponse).isTrue()
+        }
+
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharactersWhenInvalidPrivateKey() {
+        CoroutineScope(Dispatchers.Default).launch {
+
+            val hash = MD5HashKey().getHash(publicKey, "", System.currentTimeMillis())
+            val response = NetworkResponse.Error<CharacterListResponse>()
+            Mockito.`when`(
+                marvelCharacterRemoteDataSource.getMarvelCharacters(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+            val wantedResponse =
+                repository.getMarvelCharacters("", hash, System.currentTimeMillis())
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacters(
+                publicKey,
+                hash,
+                System.currentTimeMillis()
+            )
+            assertThat(response == wantedResponse).isTrue()
+        }
+
+    }
+
+
+    @Test
+    fun positiveTestGetMarvelCharacterDetailsById() {
 
         CoroutineScope(Dispatchers.Default).launch {
             val characterId = 1017100
@@ -101,4 +177,98 @@ class MarvelCharactersRepositoryImplTest {
             assertThat(response == wantedResponse).isTrue()
         }
     }
+
+    @Test
+    fun negativeTestGetMarvelCharacterDetailsByIdWhenAllDataIsInvalid() {
+
+        CoroutineScope(Dispatchers.Default).launch {
+            val characterId = 0
+            val hash = MD5HashKey().getHash("", "", System.currentTimeMillis())
+            val response = NetworkResponse.Error<CharacterListResponse>()
+            Mockito.`when`(
+                marvelCharacterRemoteDataSource.getMarvelCharacterByCharacterId(
+                    "",
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+            val wantedResponse = repository.getMarvelCharacterById(
+                "",
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacterByCharacterId(
+                "",
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            assertThat(response == wantedResponse).isTrue()
+        }
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharacterDetailsByIdWhenCharacterIdIsInvalid() {
+
+        CoroutineScope(Dispatchers.Default).launch {
+            val characterId = 0
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<CharacterListResponse>()
+            Mockito.`when`(
+                marvelCharacterRemoteDataSource.getMarvelCharacterByCharacterId(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+            val wantedResponse = repository.getMarvelCharacterById(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacterByCharacterId(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            assertThat(response == wantedResponse).isTrue()
+        }
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharacterDetailsByIdWhenPublicAndPrivateKeyIsInvalid() {
+
+        CoroutineScope(Dispatchers.Default).launch {
+            val characterId = 1017100
+            val hash = MD5HashKey().getHash("", "", System.currentTimeMillis())
+            val response = NetworkResponse.Error<CharacterListResponse>()
+            Mockito.`when`(
+                marvelCharacterRemoteDataSource.getMarvelCharacterByCharacterId(
+                    "",
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+            val wantedResponse = repository.getMarvelCharacterById(
+                "",
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            verify(marvelCharacterRemoteDataSource, times(1)).getMarvelCharacterByCharacterId(
+                "",
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+            assertThat(response == wantedResponse).isTrue()
+        }
+    }
+
 }

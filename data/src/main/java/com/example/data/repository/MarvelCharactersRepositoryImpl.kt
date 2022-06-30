@@ -31,9 +31,6 @@ class MarvelCharactersRepositoryImpl(
                         )
                     )
                 }
-                is NetworkResponse.Loading -> {
-                    return@withContext NetworkResponse.Loading()
-                }
                 else -> {
                     return@withContext NetworkResponse.Error(errorMessage = response.errorMessage)
                 }
@@ -65,9 +62,6 @@ class MarvelCharactersRepositoryImpl(
                         data =
                         mapper.mapToCharacterDetails(response.data!!)
                     )
-                }
-                is NetworkResponse.Loading -> {
-                    return@withContext NetworkResponse.Loading()
                 }
                 else -> {
                     return@withContext NetworkResponse.Error(errorMessage = response.errorMessage)

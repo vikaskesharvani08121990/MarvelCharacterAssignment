@@ -1,9 +1,9 @@
 package com.example.domain.usecase
 
 
-import com.example.appcommon.utils.MD5HashKey
 import com.example.appcommon.utils.NetworkResponse
 import com.example.domain.marvelCharacterList
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.privateKey
 import com.example.domain.publicKey
 import com.example.domain.repository.MarvelCharactersRepository
@@ -29,14 +29,13 @@ class GetMarvelCharactersListUseCaseImplTest {
     lateinit var useCase: GetMarvelCharactersListUseCase
 
     @Test
-    fun getMarvelCharacters() {
+    fun positiveTestGetMarvelCharacters() {
         CoroutineScope(Dispatchers.Default).launch {
-            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
             val response = NetworkResponse.Success(data = marvelCharacterList)
             Mockito.`when`(
                 repository.getMarvelCharacters(
                     publicKey,
-                    hash,
+                    privateKey,
                     System.currentTimeMillis()
                 )
             ).thenReturn(response)
@@ -44,12 +43,34 @@ class GetMarvelCharactersListUseCaseImplTest {
             val wantedResponse = useCase.invoke(publicKey, privateKey, System.currentTimeMillis())
             verify(repository, times(1)).getMarvelCharacters(
                 publicKey,
-                hash,
+                privateKey,
                 System.currentTimeMillis()
             )
             Truth.assertThat(wantedResponse.data != null).isTrue()
             Truth.assertThat(wantedResponse.data?.size == 2).isTrue()
         }
 
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharacters() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val response = NetworkResponse.Error<List<MarvelCharacter>>()
+            Mockito.`when`(
+                repository.getMarvelCharacters(
+                    "",
+                    "",
+                    System.currentTimeMillis()
+                )
+            ).thenReturn(response)
+
+            val wantedResponse = useCase.invoke(publicKey, privateKey, System.currentTimeMillis())
+            verify(repository, times(1)).getMarvelCharacters(
+                "",
+                "",
+                System.currentTimeMillis()
+            )
+            Truth.assertThat(wantedResponse.data == null).isTrue()
+        }
     }
 }

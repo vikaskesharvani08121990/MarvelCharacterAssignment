@@ -4,6 +4,7 @@ package com.example.marvelcharcterapp.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.appcommon.utils.MD5HashKey
 import com.example.appcommon.utils.NetworkResponse
+import com.example.domain.model.MarvelCharacter
 import com.example.domain.usecase.GetMarvelCharacterDetailsUseCase
 import com.example.marvelcharcterapp.BuildConfig
 import com.example.marvelcharcterapp.getOrAwaitLiveDataValue
@@ -31,7 +32,7 @@ class GetMarvelCharacterDetailsViewModelTest {
     lateinit var useCase: GetMarvelCharacterDetailsUseCase
 
     @Test
-    fun testMarvelCharacterDetails() {
+    fun positiveTestGetMarvelCharacterDetails() {
         CoroutineScope(Dispatchers.Default).launch {
             val publicKey = BuildConfig.PUBLIC_KEY
             val privateKey = BuildConfig.PRIVATE_KEY
@@ -68,4 +69,119 @@ class GetMarvelCharacterDetailsViewModelTest {
         }
 
     }
+
+    @Test
+    fun negativeTestGetMarvelCharacterDetailsWhenAllInputParameterIsInValid() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val publicKey = ""
+            val privateKey = ""
+            val characterId = 0
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<MarvelCharacter>()
+            Mockito.`when`(
+                useCase.invoke(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+
+
+            val viewModel = GetMarvelCharacterDetailsViewModel(useCase)
+            viewModel.getMarvelCharacterDetails(
+                publicKey,
+                privateKey,
+                System.currentTimeMillis(),
+                characterId
+            )
+            val result = viewModel.marvelCharacterDetails.getOrAwaitLiveDataValue()
+
+            Truth.assertThat(result?.data == null).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacterDetails(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+        }
+
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharacterDetailsWhenCharacterIdIsInValid() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val publicKey = BuildConfig.PUBLIC_KEY
+            val privateKey = BuildConfig.PRIVATE_KEY
+            val characterId = 0
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<MarvelCharacter>()
+            Mockito.`when`(
+                useCase.invoke(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+
+
+            val viewModel = GetMarvelCharacterDetailsViewModel(useCase)
+            viewModel.getMarvelCharacterDetails(
+                publicKey,
+                privateKey,
+                System.currentTimeMillis(),
+                characterId
+            )
+            val result = viewModel.marvelCharacterDetails.getOrAwaitLiveDataValue()
+
+            Truth.assertThat(result?.data == null).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacterDetails(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+        }
+
+    }
+
+    @Test
+    fun negativeTestGetMarvelCharacterDetailsWhenPrivateAndPublicKeyIsInValid() {
+        CoroutineScope(Dispatchers.Default).launch {
+            val publicKey = ""
+            val privateKey = ""
+            val characterId = 1017100
+            val hash = MD5HashKey().getHash(publicKey, privateKey, System.currentTimeMillis())
+            val response = NetworkResponse.Error<MarvelCharacter>()
+            Mockito.`when`(
+                useCase.invoke(
+                    publicKey,
+                    hash,
+                    System.currentTimeMillis(),
+                    characterId
+                )
+            ).thenReturn(response)
+
+
+            val viewModel = GetMarvelCharacterDetailsViewModel(useCase)
+            viewModel.getMarvelCharacterDetails(
+                publicKey,
+                privateKey,
+                System.currentTimeMillis(),
+                characterId
+            )
+            val result = viewModel.marvelCharacterDetails.getOrAwaitLiveDataValue()
+
+            Truth.assertThat(result?.data == null).isTrue()
+            verify(viewModel, times(1)).getMarvelCharacterDetails(
+                publicKey,
+                hash,
+                System.currentTimeMillis(),
+                characterId
+            )
+        }
+
+    }
+
 }
